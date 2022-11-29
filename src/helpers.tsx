@@ -15,7 +15,7 @@ export function filterText(text: string) {
   return text.replaceAll("_", " ");
 }
 //45
-export const wind = (deg: number ) => {
+export const wind = (deg: number) => {
   switch (true) {
     case (deg >= 337.5 && deg <= 360) || (deg >= 0 && deg <= 22.5):
       return "N \u{2191}";
@@ -36,15 +36,10 @@ export const wind = (deg: number ) => {
     default:
       return "\u{2022}";
   }
-}
+};
 
 
-
-const objectContructor = {}.constructor;
-
-export const isIterable = (obj: any) => {
-  if (obj == null || typeof obj === "string" || typeof obj === "number")
-    return false;
-  else if (Array.isArray(obj) || obj.constructor === objectContructor)
-    return true;
+export const isIterable = (obj: any): boolean => {
+  if (typeof obj === 'object' && obj !== null) return true;
+  else return false;
 };

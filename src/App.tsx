@@ -7,7 +7,7 @@ import { setupBlocks } from "./assets/setupBlocks";
 function App() {
   const [dataArray, setDataArray] = useState([]);
 
-  const iterateIt = (dataPcs: any, masterKey = "") => {
+  const iterateIt = (dataPcs: object, masterKey = "") => {
     Object.entries(dataPcs).map(([key, value]) => {
       if (!isIterable(value))
         setDataArray((prevState) => ({
