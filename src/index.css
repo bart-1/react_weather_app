@@ -4,6 +4,6 @@
 
 @layer base {
   body {
-    @apply bg-gradient-to-b from-slate-900 via-black to-black min-h-screen h-full;
+    @apply bg-gray-500;
   }
 }

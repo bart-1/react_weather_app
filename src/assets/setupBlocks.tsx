@@ -47,14 +47,23 @@ export function setupBlocks(
         icon: null,
         className: "",
       };
-    case text.includes("_description"):
+    case text === "0_description":
       return {
         show: true,
         title: "Description",
         unit: "",
         processedData: "",
         icon: null,
-        className: "-order-1",
+        className: "col-span-3",
+      };
+    case text.includes("_description"):
+      return {
+        show: false,
+        title: "Description",
+        unit: "",
+        processedData: "",
+        icon: null,
+        className: "col-span-3",
       };
 
     // icons
@@ -66,7 +75,7 @@ export function setupBlocks(
         unit: "",
         processedData: " ",
         icon: <img src={`./assets/icons/${value}.svg`}></img>,
-        className: "-order-1",
+        className: "",
       };
     case text === "main_icon":
       return {
@@ -75,16 +84,16 @@ export function setupBlocks(
         unit: "",
         processedData: " ",
         icon: <img src={`./assets/icons/${value}.svg`}></img>,
-        className: "-order-1",
+        className: "col-span-3 row-span-3",
       };
     case text.includes("_icon"):
       return {
-        show: true,
+        show: false,
         title: ` `,
         unit: "",
         processedData: " ",
         icon: <img src={`./assets/icons/${value}.svg`}></img>,
-        className: "-order-1",
+        className: "",
       };
 
     //temperature
@@ -92,7 +101,7 @@ export function setupBlocks(
     case text === "main_temp":
       return {
         show: true,
-        title: "Temperature",
+        title: "Temp.",
         unit: "\u{2103}",
         processedData: `${Math.round(Number(value))}`,
         icon: null,
@@ -135,7 +144,7 @@ export function setupBlocks(
         unit: "hPa",
         processedData: "",
         icon: null,
-        className: "",
+        className: "col-span-2",
       };
 
     //humidity
@@ -159,7 +168,7 @@ export function setupBlocks(
         unit: "m",
         processedData: "",
         icon: null,
-        className: "order-4",
+        className: "col-span-2",
       };
 
     //wind
@@ -171,7 +180,7 @@ export function setupBlocks(
         unit: "m/s",
         processedData: "",
         icon: null,
-        className: "",
+        className: "col-span-2",
       };
     case text === "wind_deg":
       return {
@@ -252,7 +261,7 @@ export function setupBlocks(
         unit: "",
         processedData: "",
         icon: null,
-        className: "-order-2",
+        className: "",
       };
 
     case text === "name":
@@ -262,7 +271,7 @@ export function setupBlocks(
         unit: "",
         processedData: "",
         icon: null,
-        className: "order-3",
+        className: "col-span-2",
       };
 
     //time & date
@@ -284,7 +293,7 @@ export function setupBlocks(
         unit: "",
         processedData: `${typeof value === "number" && transformDate(value)}`,
         icon: null,
-        className: "",
+        className: "col-span-2",
       };
     case text === "sys_sunset":
       return {
@@ -293,7 +302,7 @@ export function setupBlocks(
         unit: "",
         processedData: `${typeof value === "number" && transformDate(value)}`,
         icon: null,
-        className: "",
+        className: "col-span-2",
       };
     case text === "timezone":
       return {

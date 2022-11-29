@@ -80,9 +80,9 @@ function App() {
   // );
   return (
     <div className="App m-0 p-0 box-border">
-      <div className="mt-12 max-w-2xl flex gap-3 m-auto justify-center">
-        <div className="shrink-0 w-1/4">{icon}</div>
-        <div className="flex flex-wrap gap-3 justify-center">{blocks}</div>
+      <div className="mt-12 max-w-2xl grid grid-cols-8 grid-rows-4 m-auto justify-center rounded-xl p-4 bg-gradient-to-b from-gray-900 to-black shadow-xl">
+        {icon}
+        {blocks}
       </div>
     </div>
   );
