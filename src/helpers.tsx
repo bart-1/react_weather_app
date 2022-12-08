@@ -38,8 +38,7 @@ export const wind = (deg: number) => {
   }
 };
 
-
 export const isIterable = (obj: any): boolean => {
-  if (typeof obj === 'object' && obj !== null) return true;
+  if (typeof obj === "object" && obj !== null) return true;
   else return false;
 };

@@ -20,7 +20,7 @@ const Block = ({
         {blockSetupData.title ? blockSetupData.title : blockObjectKey}
       </span>
       {blockSetupData.icon ? blockSetupData.icon : null}
-      <span className={`text-red-500 p-3 text-xl font-bold`}>
+      <span className={`text-red-500 p-3 text-xl font-bold text-center`}>
         {blockSetupData.processedData
           ? `${blockSetupData.processedData} ${blockSetupData.unit}`
           : `${blockObjectValue} ${blockSetupData.unit}`}

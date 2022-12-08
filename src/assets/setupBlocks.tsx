@@ -35,7 +35,7 @@ export function setupBlocks(
         icon: null,
         className: "",
       };
-    
+
     // description
 
     case text.includes("_main"):
@@ -54,7 +54,7 @@ export function setupBlocks(
         unit: "",
         processedData: "",
         icon: null,
-        className: "col-span-3",
+        className: "col-span-4",
       };
     case text.includes("_description"):
       return {
@@ -63,7 +63,7 @@ export function setupBlocks(
         unit: "",
         processedData: "",
         icon: null,
-        className: "col-span-3",
+        className: "col-span-2",
       };
 
     // icons
@@ -84,7 +84,8 @@ export function setupBlocks(
         unit: "",
         processedData: " ",
         icon: <img src={`./assets/icons/${value}.svg`}></img>,
-        className: "col-span-3 row-span-3",
+        className:
+          "col-span-2 row-span-4 sm:col-span-2 md:col-span-3 md:row-span-3 ",
       };
     case text.includes("_icon"):
       return {
@@ -105,7 +106,7 @@ export function setupBlocks(
         unit: "\u{2103}",
         processedData: `${Math.round(Number(value))}`,
         icon: null,
-        className: "",
+        className: "col-span-2 md:col-span-1",
       };
     case text === "main_feels_like":
       return {
@@ -114,7 +115,7 @@ export function setupBlocks(
         unit: "\u{2103}",
         processedData: `${Math.round(Number(value))}`,
         icon: null,
-        className: "",
+        className: "col-span-2 sm:col-span-1",
       };
     case text === "main_temp_min":
       return {
@@ -123,7 +124,7 @@ export function setupBlocks(
         unit: "\u{2103}",
         processedData: `${Math.round(Number(value))}`,
         icon: null,
-        className: "",
+        className: "col-span-2",
       };
     case text === "main_temp_max":
       return {
@@ -132,7 +133,7 @@ export function setupBlocks(
         unit: "\u{2103}",
         processedData: `${Math.round(Number(value))}`,
         icon: null,
-        className: "",
+        className: "col-span-2",
       };
 
     //pressure
@@ -156,7 +157,7 @@ export function setupBlocks(
         unit: "\u{0025}",
         processedData: "",
         icon: null,
-        className: "",
+        className: "col-span-2 sm:col-span-1",
       };
 
     //visibility
@@ -189,7 +190,7 @@ export function setupBlocks(
         unit: typeof value === "number" ? wind(value) : "\u{2022}",
         processedData: " ",
         icon: null,
-        className: "",
+        className: "col-span-2 sm:col-span-1",
       };
     case text === "wind_gust":
       return {
@@ -198,7 +199,7 @@ export function setupBlocks(
         unit: "m/s",
         processedData: " ",
         icon: null,
-        className: "",
+        className: "col-span-2 sm:col-span-1",
       };
 
     //clouds
@@ -210,7 +211,7 @@ export function setupBlocks(
         unit: "\u{0025}",
         processedData: "",
         icon: null,
-        className: "",
+        className: "col-span-2 sm:col-span-1",
       };
 
     // rainfall and snowfall
@@ -222,16 +223,16 @@ export function setupBlocks(
         unit: "mm",
         processedData: "",
         icon: null,
-        className: "",
+        className: "col-span-2",
       };
     case text === "rain_3h":
       return {
-        show: true,
+        show: false,
         title: "Rain mm/3h",
         unit: "mm",
         processedData: "",
         icon: null,
-        className: "",
+        className: "col-span-2",
       };
     case text === "snow_1h":
       return {
@@ -240,23 +241,23 @@ export function setupBlocks(
         unit: "mm",
         processedData: "",
         icon: null,
-        className: "",
+        className: "col-span-2",
       };
     case text === "snow_3h":
       return {
-        show: true,
+        show: false,
         title: "Snow mm/3h",
         unit: "mm",
         processedData: "",
         icon: null,
-        className: "",
+        className: "col-span-2",
       };
 
     // country & city
 
     case text === "sys_country":
       return {
-        show: true,
+        show: false,
         title: "Country",
         unit: "",
         processedData: "",
