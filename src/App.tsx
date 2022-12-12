@@ -82,7 +82,7 @@ function App() {
   // );
   return (
     <div className="App m-0 p-0 box-border">
-      <div className="mt-12 max-w-2xl grid grid-flow-row-dense grid-cols-4 sm:grid-cols-4 sm:grid-rows-6 md:grid-cols-8 md:grid-rows-4 m-auto justify-center rounded-xl p-4 bg-gradient-to-b from-gray-900 to-black shadow-xl">
+      <div className="mt-12 max-w-md max-h-80vh md:max-w-3xl grid grid-flow-row-dense grid-cols-4 sm:grid-cols-4 sm:grid-rows-6 md:grid-cols-8 md:grid-rows-4 m-auto justify-center rounded-xl p-4 bg-gradient-to-b from-gray-900 to-black shadow-xl">
         {icon}
         {blocks}
       </div>
