@@ -23,7 +23,7 @@ export function setupBlocks(
         title: "",
         unit: "",
         processedData: "",
-        icon: null,
+        icon: false,
         className: "",
       };
     case text === "coord_lat":
@@ -32,7 +32,7 @@ export function setupBlocks(
         title: "",
         unit: "",
         processedData: "",
-        icon: null,
+        icon: false,
         className: "",
       };
 
@@ -44,16 +44,25 @@ export function setupBlocks(
         title: "",
         unit: "",
         processedData: "",
-        icon: null,
+        icon: false,
         className: "",
       };
-    case text === "0_description":
+    case text === "descriptions":
       return {
         show: true,
         title: "Description",
         unit: "",
         processedData: "",
-        icon: null,
+        icon: false,
+        className: "col-span-4",
+      };
+    case text === "weather_0_description":
+      return {
+        show: false,
+        title: "Description",
+        unit: "",
+        processedData: "",
+        icon: false,
         className: "col-span-4",
       };
     case text.includes("_description"):
@@ -62,19 +71,19 @@ export function setupBlocks(
         title: "Description",
         unit: "",
         processedData: "",
-        icon: null,
+        icon: false,
         className: "col-span-2",
       };
 
     // icons
 
-    case text === "0_icon":
+    case text === "weather_0_icon":
       return {
         show: false,
         title: ` `,
         unit: "",
         processedData: " ",
-        icon: <img src={`./assets/icons/${value}.svg`}></img>,
+        icon: false,
         className: "",
       };
     case text === "main_icon":
@@ -83,7 +92,7 @@ export function setupBlocks(
         title: ` `,
         unit: "",
         processedData: " ",
-        icon: <img src={`./assets/icons/${value}.svg`}></img>,
+        icon: true,
         className:
           "col-span-2 row-span-4 sm:col-span-2 md:col-span-3 md:row-span-3 ",
       };
@@ -93,7 +102,7 @@ export function setupBlocks(
         title: ` `,
         unit: "",
         processedData: " ",
-        icon: <img src={`./assets/icons/${value}.svg`}></img>,
+        icon: false,
         className: "",
       };
 
@@ -105,7 +114,7 @@ export function setupBlocks(
         title: "Temp.",
         unit: "\u{2103}",
         processedData: `${Math.round(Number(value))}`,
-        icon: null,
+        icon: false,
         className: "col-span-2 md:col-span-1",
       };
     case text === "main_feels_like":
@@ -114,7 +123,7 @@ export function setupBlocks(
         title: "Feels like",
         unit: "\u{2103}",
         processedData: `${Math.round(Number(value))}`,
-        icon: null,
+        icon: false,
         className: "col-span-2 sm:col-span-1",
       };
     case text === "main_temp_min":
@@ -123,7 +132,7 @@ export function setupBlocks(
         title: "Todays min",
         unit: "\u{2103}",
         processedData: `${Math.round(Number(value))}`,
-        icon: null,
+        icon: false,
         className: "col-span-2",
       };
     case text === "main_temp_max":
@@ -132,7 +141,7 @@ export function setupBlocks(
         title: "Todays max",
         unit: "\u{2103}",
         processedData: `${Math.round(Number(value))}`,
-        icon: null,
+        icon: false,
         className: "col-span-2",
       };
 
@@ -144,7 +153,7 @@ export function setupBlocks(
         title: "Pressure",
         unit: "hPa",
         processedData: "",
-        icon: null,
+        icon: false,
         className: "col-span-2",
       };
 
@@ -156,7 +165,7 @@ export function setupBlocks(
         title: "Humidity",
         unit: "\u{0025}",
         processedData: "",
-        icon: null,
+        icon: false,
         className: "col-span-2 sm:col-span-1",
       };
 
@@ -168,7 +177,7 @@ export function setupBlocks(
         title: "Visibility",
         unit: "m",
         processedData: "",
-        icon: null,
+        icon: false,
         className: "col-span-2",
       };
 
@@ -180,7 +189,7 @@ export function setupBlocks(
         title: "Wind speed",
         unit: "m/s",
         processedData: "",
-        icon: null,
+        icon: false,
         className: "col-span-2",
       };
     case text === "wind_deg":
@@ -189,7 +198,7 @@ export function setupBlocks(
         title: "Wind deg",
         unit: typeof value === "number" ? wind(value) : "\u{2022}",
         processedData: " ",
-        icon: null,
+        icon: false,
         className: "col-span-2 sm:col-span-1",
       };
     case text === "wind_gust":
@@ -198,7 +207,7 @@ export function setupBlocks(
         title: "Wind gust",
         unit: "m/s",
         processedData: " ",
-        icon: null,
+        icon: false,
         className: "col-span-2 sm:col-span-1",
       };
 
@@ -210,7 +219,7 @@ export function setupBlocks(
         title: "Clouds",
         unit: "\u{0025}",
         processedData: "",
-        icon: null,
+        icon: false,
         className: "col-span-2 sm:col-span-1",
       };
 
@@ -222,7 +231,7 @@ export function setupBlocks(
         title: "Rain mm/1h",
         unit: "mm",
         processedData: "",
-        icon: null,
+        icon: false,
         className: "col-span-2",
       };
     case text === "rain_3h":
@@ -231,7 +240,7 @@ export function setupBlocks(
         title: "Rain mm/3h",
         unit: "mm",
         processedData: "",
-        icon: null,
+        icon: false,
         className: "col-span-2",
       };
     case text === "snow_1h":
@@ -240,7 +249,7 @@ export function setupBlocks(
         title: "Snow mm/1h",
         unit: "mm",
         processedData: "",
-        icon: null,
+        icon: false,
         className: "col-span-2",
       };
     case text === "snow_3h":
@@ -249,7 +258,7 @@ export function setupBlocks(
         title: "Snow mm/3h",
         unit: "mm",
         processedData: "",
-        icon: null,
+        icon: false,
         className: "col-span-2",
       };
 
@@ -261,7 +270,7 @@ export function setupBlocks(
         title: "Country",
         unit: "",
         processedData: "",
-        icon: null,
+        icon: false,
         className: "",
       };
 
@@ -271,7 +280,7 @@ export function setupBlocks(
         title: "City",
         unit: "",
         processedData: "",
-        icon: null,
+        icon: false,
         className: "col-span-2",
       };
 
@@ -283,7 +292,7 @@ export function setupBlocks(
         title: "",
         unit: "",
         processedData: "",
-        icon: null,
+        icon: false,
         className: "",
       };
 
@@ -293,7 +302,7 @@ export function setupBlocks(
         title: "Sunrise",
         unit: "",
         processedData: `${typeof value === "number" && transformDate(value)}`,
-        icon: null,
+        icon: false,
         className: "col-span-2",
       };
     case text === "sys_sunset":
@@ -302,7 +311,7 @@ export function setupBlocks(
         title: "Sunset",
         unit: "",
         processedData: `${typeof value === "number" && transformDate(value)}`,
-        icon: null,
+        icon: false,
         className: "col-span-2",
       };
     case text === "timezone":
@@ -311,7 +320,7 @@ export function setupBlocks(
         title: "",
         unit: "",
         processedData: "",
-        icon: null,
+        icon: false,
         className: "",
       };
 
@@ -323,7 +332,7 @@ export function setupBlocks(
         title: "",
         unit: "",
         processedData: "",
-        icon: null,
+        icon: false,
         className: "",
       };
     case text === "base":
@@ -332,7 +341,7 @@ export function setupBlocks(
         title: " ",
         unit: "",
         processedData: "",
-        icon: null,
+        icon: false,
         className: "",
       };
     case text === "sys_type":
@@ -341,7 +350,7 @@ export function setupBlocks(
         title: "",
         unit: "",
         processedData: "",
-        icon: null,
+        icon: false,
         className: "",
       };
     case text === "sys_id":
@@ -350,7 +359,7 @@ export function setupBlocks(
         title: "",
         unit: "",
         processedData: "",
-        icon: null,
+        icon: false,
         className: "",
       };
     case text === "cod":
@@ -359,7 +368,7 @@ export function setupBlocks(
         title: "",
         unit: "",
         processedData: "",
-        icon: null,
+        icon: false,
         className: "",
       };
     case text === "id":
@@ -368,7 +377,7 @@ export function setupBlocks(
         title: "",
         unit: "",
         processedData: "",
-        icon: null,
+        icon: false,
         className: "",
       };
 
@@ -378,7 +387,7 @@ export function setupBlocks(
         title: "",
         unit: "",
         processedData: "",
-        icon: null,
+        icon: false,
         className: "",
       };
   }
