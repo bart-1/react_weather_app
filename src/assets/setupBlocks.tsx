@@ -1,18 +1,24 @@
 import { ReactNode } from "react";
-import { transformDate, wind } from "../helpers";
+import { epochTimeConverter, transformDate, ValueType, wind } from "./helpers";
 
 export type BlockType = {
   show: boolean;
   title: string;
   unit: string;
-  processedData: string;
+  processedData: string | number | undefined;
   icon: ReactNode;
   className: string;
 };
 
+function roundNumberValue(value: ValueType | undefined) {
+  if (!value) return "-"
+  
+  return Math.round(Number(value));
+}
+
 export function setupBlocks(
   text: string,
-  value: string | number | unknown
+  value: ValueType
 ): BlockType {
   switch (true) {
     // coordinates
@@ -113,7 +119,7 @@ export function setupBlocks(
         show: true,
         title: "Temp.",
         unit: "\u{2103}",
-        processedData: `${Math.round(Number(value))}`,
+        processedData: roundNumberValue(value),
         icon: false,
         className: "col-span-2 md:col-span-1",
       };
@@ -122,7 +128,7 @@ export function setupBlocks(
         show: true,
         title: "Feels like",
         unit: "\u{2103}",
-        processedData: `${Math.round(Number(value))}`,
+        processedData: roundNumberValue(value),
         icon: false,
         className: "col-span-2 sm:col-span-1",
       };
@@ -131,7 +137,7 @@ export function setupBlocks(
         show: true,
         title: "Todays min",
         unit: "\u{2103}",
-        processedData: `${Math.round(Number(value))}`,
+        processedData: roundNumberValue(value),
         icon: false,
         className: "col-span-2",
       };
@@ -140,7 +146,7 @@ export function setupBlocks(
         show: true,
         title: "Todays max",
         unit: "\u{2103}",
-        processedData: `${Math.round(Number(value))}`,
+        processedData: roundNumberValue(value),
         icon: false,
         className: "col-span-2",
       };
@@ -288,12 +294,12 @@ export function setupBlocks(
 
     case text === "dt": //time of data calculation
       return {
-        show: false,
-        title: "",
+        show: true,
+        title: "Updated at",
         unit: "",
-        processedData: "",
+        processedData: `${epochTimeConverter(Number(value))}`,
         icon: false,
-        className: "",
+        className: "col-span-2 order-last bg-red-500",
       };
 
     case text === "sys_sunrise":
@@ -301,7 +307,7 @@ export function setupBlocks(
         show: true,
         title: "Sunrise",
         unit: "",
-        processedData: `${typeof value === "number" && transformDate(value)}`,
+        processedData: `${epochTimeConverter(Number(value))}`,
         icon: false,
         className: "col-span-2",
       };
@@ -310,7 +316,7 @@ export function setupBlocks(
         show: true,
         title: "Sunset",
         unit: "",
-        processedData: `${typeof value === "number" && transformDate(value)}`,
+        processedData: `${epochTimeConverter(Number(value))}`,
         icon: false,
         className: "col-span-2",
       };

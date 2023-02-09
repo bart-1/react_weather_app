@@ -1,5 +1,6 @@
 import { ReactNode } from "react";
 
+
 export const transformDate = (date: number) => {
   const convDate = new Date(date * 1000);
   const seconds = "0" + convDate.getSeconds();
@@ -11,9 +12,46 @@ export const transformDate = (date: number) => {
   }`;
 };
 
-export function filterText(text: string) {
-  return text.replaceAll("_", " ");
+export type ValueType = string | number | ValueType[];
+
+export const validateEmptyValue = (value: ValueType) => {
+  if (!value) return "-";
+
+  return value;
 }
+
+/**
+ * Return a human-readable data.
+ * @param time epoch value of time
+ * @param ymd add to return year-month-day (default: true)
+ * @param hms add to return hour-minute-second (default: true)
+ * @returns
+ */
+export const epochTimeConverter = (
+  time: number,
+  ymd: boolean = true,
+  hms: boolean = true
+) => {
+  if (!time) return "-";
+  const date = new Date(time * 1000);
+  const year = date.getUTCFullYear();
+  const month = "0" + (date.getUTCMonth() + 1);
+  const day = "0" + date.getUTCDate();
+  const seconds = "0" + date.getUTCSeconds();
+  const minutes = "0" + date.getUTCMinutes();
+  const hoursTimezoneCorrection = "0" + date.getUTCHours();
+
+  return `${ymd ? year + "-" + month.slice(-2) + "-" + day.slice(-2) : ""} ${
+    hms
+      ? " " +
+        hoursTimezoneCorrection.slice(-2) +
+        ":" +
+        minutes.slice(-2) +
+        ":" +
+        seconds.slice(-2)
+      : ""
+  }`;
+};
 //45
 export const wind = (deg: number) => {
   switch (true) {

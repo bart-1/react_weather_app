@@ -1,12 +1,13 @@
 import React, { useEffect, useState } from "react";
+import { validateEmptyValue, ValueType } from "./assets/helpers";
 import { setupBlocks } from "./assets/setupBlocks";
 
 interface BlockProps {
-  blockValue: string | string[];
+  blockValue: ValueType | ValueType[];
   blockTitle: string;
 }
 
-const Block = ({ blockValue, blockTitle }: BlockProps) => {
+const Block = ({ blockValue, blockTitle }: BlockProps ) => {
   const [isValueArray, setIsValueArray] = useState(false);
   const [valueArrayKey, setValueArrayKey] = useState(0);
   const block = setupBlocks(blockTitle, blockValue);
@@ -18,7 +19,7 @@ const Block = ({ blockValue, blockTitle }: BlockProps) => {
   useEffect(() => {
     const blockValueTimer = setInterval(() => {
       setValueArrayKey((prevState) => {
-        if (prevState < blockValue.length - 1) return prevState + 1;
+        if (Array.isArray(blockValue) && prevState < blockValue.length - 1) return prevState + 1;
         else return (prevState = 0);
       });
     }, 2000);
@@ -34,7 +35,7 @@ const Block = ({ blockValue, blockTitle }: BlockProps) => {
         {block.title ? block.title : blockTitle}
       </span>
       {block.icon ? (
-        isValueArray ? (
+        isValueArray && Array.isArray(blockValue) ? (
           <img
             src={`./assets/icons/${blockValue[valueArrayKey]}.svg`}></img>
         ) : (
@@ -46,9 +47,9 @@ const Block = ({ blockValue, blockTitle }: BlockProps) => {
         {block.processedData
           ? `${block.processedData} ${block.unit}`
           : `${
-              isValueArray
-                ? blockValue[valueArrayKey]
-                : blockValue
+              isValueArray && Array.isArray(blockValue) 
+                ? validateEmptyValue(blockValue[valueArrayKey])
+                : validateEmptyValue(blockValue)
             } ${block.unit}`}
       </span>
     </div>
