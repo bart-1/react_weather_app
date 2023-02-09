@@ -2,8 +2,11 @@ import { useEffect, useState } from "react";
 import { isIterable, validateEmptyValue } from "./assets/helpers";
 import * as empty from "./assets/empty.json";
 import Block from "./Block";
+import Input from "./Input";
 
 function App() {
+  const [cityName, setCityName] = useState("");
+  const [countryCode, setCountryCode] = useState("pl");
   const [dataArray, setDataArray] = useState([]);
   const [dataIsReady, setDataIsReady] = useState(false);
 
@@ -32,23 +35,38 @@ function App() {
   useEffect(() => {
     setDataArray([]);
 
-    const apiData = apiFetch(`https://dev-1.pl/weather-api/pl/warszawaA`);
+    iterateIt(JSON.parse(empty.weather));
+  }, []);
+  useEffect(() => {
+    setDataArray([]);
+
+    const apiData = apiFetch(
+      `https://dev-1.pl/weather-api/${countryCode}/${cityName}`
+    );
 
     const mainTimer = setInterval(() => {
       setDataArray([]);
       setDataIsReady(false);
-      const apiData = apiFetch(`https://dev-1.pl/weather-api/pl/warszawaA`);
+      const apiData = apiFetch(
+        `https://dev-1.pl/weather-api/${countryCode}/${cityName}`
+      );
     }, 100000);
 
     return () => {
       clearInterval(mainTimer);
     };
-  }, []);
+  }, [cityName, countryCode]);
 
   if (!dataIsReady) return <span>Data is loading...</span>;
 
   const blocks = Object.entries(dataArray).map(([key, value], index) => {
-    return <Block blockTitle={key} blockValue={validateEmptyValue(value)} key={index} />;
+    return (
+      <Block
+        blockTitle={key}
+        blockValue={validateEmptyValue(value)}
+        key={index}
+      />
+    );
   });
 
   if (!blocks) return <div>Epmty</div>;
@@ -75,6 +93,12 @@ function App() {
 
   return (
     <div className="App m-0 p-3 box-border">
+      <Input
+        sendCityName={(cityName) => setCityName(cityName)}
+        sendCountryCode={(countryCode) => setCountryCode(countryCode)}
+        labelCity="City name"
+        labelCountry="Country code"
+      />
       <div className="grid grid-cols-4 mt-6 max-w-md max-h-90vh md:max-w-3xl gap-[8px] sm:grid-cols-4 sm:grid-rows-6 md:grid-cols-8 md:grid-rows-4 m-auto justify-center rounded-xl p-4 bg-gradient-to-b from-gray-900 to-black shadow-xl">
         {blockByKey("_icon", "main_icon")}
         {blockByKey("_description", "descriptions")}

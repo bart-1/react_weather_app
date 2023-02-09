@@ -1,5 +1,5 @@
-import React, { useEffect, useState } from "react";
-import { validateEmptyValue, ValueType } from "./assets/helpers";
+import { useEffect, useState } from "react";
+import { ValueType } from "./assets/helpers";
 import { setupBlocks } from "./assets/setupBlocks";
 
 interface BlockProps {
@@ -19,7 +19,7 @@ const Block = ({ blockValue, blockTitle }: BlockProps ) => {
   useEffect(() => {
     const blockValueTimer = setInterval(() => {
       setValueArrayKey((prevState) => {
-        if (Array.isArray(blockValue) && prevState < blockValue.length - 1) return prevState + 1;
+        if (Array.isArray(block.value) && prevState < block.value.length - 1) return prevState + 1;
         else return (prevState = 0);
       });
     }, 2000);
@@ -35,11 +35,11 @@ const Block = ({ blockValue, blockTitle }: BlockProps ) => {
         {block.title ? block.title : blockTitle}
       </span>
       {block.icon ? (
-        isValueArray && Array.isArray(blockValue) ? (
+        isValueArray && Array.isArray(block.value) ? (
           <img
-            src={`./assets/icons/${blockValue[valueArrayKey]}.svg`}></img>
+            src={`./assets/icons/${block.value[valueArrayKey]}.svg`}></img>
         ) : (
-          <img src={`./assets/icons/${blockValue}.svg`}></img>
+          <img src={`./assets/icons/${block.value}.svg`}></img>
         )
       ) : null}
       <span
@@ -47,9 +47,9 @@ const Block = ({ blockValue, blockTitle }: BlockProps ) => {
         {block.processedData
           ? `${block.processedData} ${block.unit}`
           : `${
-              isValueArray && Array.isArray(blockValue) 
-                ? validateEmptyValue(blockValue[valueArrayKey])
-                : validateEmptyValue(blockValue)
+              isValueArray && Array.isArray(block.value) 
+                ? block.value[valueArrayKey]
+                : block.value
             } ${block.unit}`}
       </span>
     </div>

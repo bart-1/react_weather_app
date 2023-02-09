@@ -39,7 +39,7 @@ export const epochTimeConverter = (
   const day = "0" + date.getUTCDate();
   const seconds = "0" + date.getUTCSeconds();
   const minutes = "0" + date.getUTCMinutes();
-  const hoursTimezoneCorrection = "0" + date.getUTCHours();
+  const hoursTimezoneCorrection = "0" + (date.getUTCHours()+1);
 
   return `${ymd ? year + "-" + month.slice(-2) + "-" + day.slice(-2) : ""} ${
     hms

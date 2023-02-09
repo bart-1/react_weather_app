@@ -1,5 +1,5 @@
 import { ReactNode } from "react";
-import { epochTimeConverter, transformDate, ValueType, wind } from "./helpers";
+import { epochTimeConverter, validateEmptyValue, ValueType, wind } from "./helpers";
 
 export type BlockType = {
   show: boolean;
@@ -8,6 +8,7 @@ export type BlockType = {
   processedData: string | number | undefined;
   icon: ReactNode;
   className: string;
+  value: ValueType
 };
 
 function roundNumberValue(value: ValueType | undefined) {
@@ -25,6 +26,7 @@ export function setupBlocks(
 
     case text === "coord_lon":
       return {
+        value: validateEmptyValue(value),
         show: false,
         title: "",
         unit: "",
@@ -34,6 +36,7 @@ export function setupBlocks(
       };
     case text === "coord_lat":
       return {
+        value: validateEmptyValue(value),
         show: false,
         title: "",
         unit: "",
@@ -46,6 +49,7 @@ export function setupBlocks(
 
     case text.includes("_main"):
       return {
+        value: validateEmptyValue(value),
         show: false,
         title: "",
         unit: "",
@@ -55,6 +59,7 @@ export function setupBlocks(
       };
     case text === "descriptions":
       return {
+        value: validateEmptyValue(value),
         show: true,
         title: "Description",
         unit: "",
@@ -64,6 +69,7 @@ export function setupBlocks(
       };
     case text === "weather_0_description":
       return {
+        value: validateEmptyValue(value),
         show: false,
         title: "Description",
         unit: "",
@@ -73,6 +79,7 @@ export function setupBlocks(
       };
     case text.includes("_description"):
       return {
+        value: validateEmptyValue(value),
         show: false,
         title: "Description",
         unit: "",
@@ -85,6 +92,7 @@ export function setupBlocks(
 
     case text === "weather_0_icon":
       return {
+        value: validateEmptyValue(value),
         show: false,
         title: ` `,
         unit: "",
@@ -94,6 +102,7 @@ export function setupBlocks(
       };
     case text === "main_icon":
       return {
+        value: validateEmptyValue(value),
         show: true,
         title: ` `,
         unit: "",
@@ -104,6 +113,7 @@ export function setupBlocks(
       };
     case text.includes("_icon"):
       return {
+        value: validateEmptyValue(value),
         show: false,
         title: ` `,
         unit: "",
@@ -116,6 +126,7 @@ export function setupBlocks(
 
     case text === "main_temp":
       return {
+        value: validateEmptyValue(value),
         show: true,
         title: "Temp.",
         unit: "\u{2103}",
@@ -125,6 +136,7 @@ export function setupBlocks(
       };
     case text === "main_feels_like":
       return {
+        value: validateEmptyValue(value),
         show: true,
         title: "Feels like",
         unit: "\u{2103}",
@@ -134,6 +146,7 @@ export function setupBlocks(
       };
     case text === "main_temp_min":
       return {
+        value: validateEmptyValue(value),
         show: true,
         title: "Todays min",
         unit: "\u{2103}",
@@ -143,6 +156,7 @@ export function setupBlocks(
       };
     case text === "main_temp_max":
       return {
+        value: validateEmptyValue(value),
         show: true,
         title: "Todays max",
         unit: "\u{2103}",
@@ -155,6 +169,7 @@ export function setupBlocks(
 
     case text === "main_pressure":
       return {
+        value: validateEmptyValue(value),
         show: true,
         title: "Pressure",
         unit: "hPa",
@@ -167,6 +182,7 @@ export function setupBlocks(
 
     case text === "main_humidity":
       return {
+        value: validateEmptyValue(value),
         show: true,
         title: "Humidity",
         unit: "\u{0025}",
@@ -179,6 +195,7 @@ export function setupBlocks(
 
     case text === "visibility":
       return {
+        value: validateEmptyValue(value),
         show: true,
         title: "Visibility",
         unit: "m",
@@ -191,6 +208,7 @@ export function setupBlocks(
 
     case text === "wind_speed":
       return {
+        value: validateEmptyValue(value),
         show: true,
         title: "Wind speed",
         unit: "m/s",
@@ -200,6 +218,7 @@ export function setupBlocks(
       };
     case text === "wind_deg":
       return {
+        value: validateEmptyValue(value),
         show: true,
         title: "Wind deg",
         unit: typeof value === "number" ? wind(value) : "\u{2022}",
@@ -209,6 +228,7 @@ export function setupBlocks(
       };
     case text === "wind_gust":
       return {
+        value: validateEmptyValue(value),
         show: true,
         title: "Wind gust",
         unit: "m/s",
@@ -221,6 +241,7 @@ export function setupBlocks(
 
     case text === "clouds_all":
       return {
+        value: validateEmptyValue(value),
         show: true,
         title: "Clouds",
         unit: "\u{0025}",
@@ -233,6 +254,7 @@ export function setupBlocks(
 
     case text === "rain_1h":
       return {
+        value: validateEmptyValue(value),
         show: true,
         title: "Rain mm/1h",
         unit: "mm",
@@ -242,6 +264,7 @@ export function setupBlocks(
       };
     case text === "rain_3h":
       return {
+        value: validateEmptyValue(value),
         show: false,
         title: "Rain mm/3h",
         unit: "mm",
@@ -251,6 +274,7 @@ export function setupBlocks(
       };
     case text === "snow_1h":
       return {
+        value: validateEmptyValue(value),
         show: true,
         title: "Snow mm/1h",
         unit: "mm",
@@ -260,6 +284,7 @@ export function setupBlocks(
       };
     case text === "snow_3h":
       return {
+        value: validateEmptyValue(value),
         show: false,
         title: "Snow mm/3h",
         unit: "mm",
@@ -272,6 +297,7 @@ export function setupBlocks(
 
     case text === "sys_country":
       return {
+        value: validateEmptyValue(value),
         show: false,
         title: "Country",
         unit: "",
@@ -282,6 +308,7 @@ export function setupBlocks(
 
     case text === "name":
       return {
+        value: validateEmptyValue(value),
         show: true,
         title: "City",
         unit: "",
@@ -294,34 +321,38 @@ export function setupBlocks(
 
     case text === "dt": //time of data calculation
       return {
+        value: validateEmptyValue(value),
         show: true,
         title: "Updated at",
         unit: "",
         processedData: `${epochTimeConverter(Number(value))}`,
         icon: false,
-        className: "col-span-2 order-last bg-red-500",
+        className: "col-span-4 order-last bg-red-500",
       };
 
     case text === "sys_sunrise":
       return {
+        value: validateEmptyValue(value),
         show: true,
         title: "Sunrise",
         unit: "",
-        processedData: `${epochTimeConverter(Number(value))}`,
+        processedData: `${epochTimeConverter(Number(value), false, true)}`,
         icon: false,
         className: "col-span-2",
       };
     case text === "sys_sunset":
       return {
+        value: validateEmptyValue(value),
         show: true,
         title: "Sunset",
         unit: "",
-        processedData: `${epochTimeConverter(Number(value))}`,
+        processedData: `${epochTimeConverter(Number(value), false, true)}`,
         icon: false,
         className: "col-span-2",
       };
     case text === "timezone":
       return {
+        value: validateEmptyValue(value),
         show: false,
         title: "",
         unit: "",
@@ -334,6 +365,7 @@ export function setupBlocks(
 
     case text.includes("_id"):
       return {
+        value: validateEmptyValue(value),
         show: false,
         title: "",
         unit: "",
@@ -343,6 +375,7 @@ export function setupBlocks(
       };
     case text === "base":
       return {
+        value: validateEmptyValue(value),
         show: false,
         title: " ",
         unit: "",
@@ -352,6 +385,7 @@ export function setupBlocks(
       };
     case text === "sys_type":
       return {
+        value: validateEmptyValue(value),
         show: false,
         title: "",
         unit: "",
@@ -361,6 +395,7 @@ export function setupBlocks(
       };
     case text === "sys_id":
       return {
+        value: validateEmptyValue(value),
         show: false,
         title: "",
         unit: "",
@@ -370,6 +405,7 @@ export function setupBlocks(
       };
     case text === "cod":
       return {
+        value: validateEmptyValue(value),
         show: false,
         title: "",
         unit: "",
@@ -379,6 +415,7 @@ export function setupBlocks(
       };
     case text === "id":
       return {
+        value: validateEmptyValue(value),
         show: false,
         title: "",
         unit: "",
@@ -389,6 +426,7 @@ export function setupBlocks(
 
     default:
       return {
+        value: validateEmptyValue(value),
         show: true,
         title: "",
         unit: "",
