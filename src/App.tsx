@@ -2,11 +2,11 @@ import { useEffect, useState } from "react";
 import { isIterable, validateEmptyValue } from "./assets/helpers";
 import * as empty from "./assets/empty.json";
 import Block from "./Block";
-import Input from "./Input";
+import FormPanel from "./FormPanel";
 
 function App() {
   const [cityName, setCityName] = useState("");
-  const [countryCode, setCountryCode] = useState("pl");
+  const [countryCode, setCountryCode] = useState("");
   const [dataArray, setDataArray] = useState([]);
   const [dataIsReady, setDataIsReady] = useState(false);
 
@@ -37,6 +37,7 @@ function App() {
 
     iterateIt(JSON.parse(empty.weather));
   }, []);
+  
   useEffect(() => {
     setDataArray([]);
 
@@ -93,7 +94,7 @@ function App() {
 
   return (
     <div className="App m-0 p-3 box-border">
-      <Input
+      <FormPanel
         sendCityName={(cityName) => setCityName(cityName)}
         sendCountryCode={(countryCode) => setCountryCode(countryCode)}
         labelCity="City name"

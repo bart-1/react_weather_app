@@ -327,7 +327,7 @@ export function setupBlocks(
         unit: "",
         processedData: `${epochTimeConverter(Number(value))}`,
         icon: false,
-        className: "col-span-4 order-last bg-red-500",
+        className: "col-span-4 order-last",
       };
 
     case text === "sys_sunrise":
