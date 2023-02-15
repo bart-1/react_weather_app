@@ -1,5 +1,6 @@
 import { SyntheticEvent, useState } from "react";
 import InputField from "./Components/InputField";
+import Search from "./Search";
 
 interface FormPanelProps {
   sendCityName: (cityName: string) => void;
@@ -16,6 +17,7 @@ const FormPanel = ({
 }: FormPanelProps) => {
   const [cityName, setCityName] = useState("");
   const [countryCode, setCountryCode] = useState("");
+  const [countrySearchValue, setCountrySearchValue] = useState("");
 
   const handleForm = (e: SyntheticEvent) => {
     e.preventDefault();
@@ -24,25 +26,28 @@ const FormPanel = ({
   };
   return (
     <>
-      <div className="flex max-w-md p-3 m-auto justify-center rounded-xl bg-gradient-to-b from-gray-900 to-black shadow-xl ">
+      <div className="flex w-fit mt-3 p-3 m-auto justify-center rounded-xl bg-gradient-to-b from-gray-900 to-black shadow-xl ">
         <form onSubmit={(e: SyntheticEvent) => handleForm(e)}>
-         
-            <div className="flex flex-row gap-3">
-              <InputField
-                labelName={labelCity}
-                sendText={(text) => setCityName(text)}
-              />
-              <InputField
-                labelName={labelCountry}
-                sendText={(text) => setCountryCode(text)}
-              />
-              <button
-                className="bg-slate-800 hover:bg-orange-500 w-12 text-xs text-bold text-white border-2 border-separate border-white rounded-md p-1"
-                type="submit"
-              >
-                Send
-              </button>
-            </div>
+          <div className="flex flex-row gap-3 z-0">
+            <Search
+              sendCountryCode={(text: string) => setCountryCode(text)}
+              sendCountryName={(text: string) => setCountrySearchValue(text)}
+              inputFieldLabel={"Country"}
+            />
+
+            <InputField
+              labelName={labelCity}
+              sendText={(text) => setCityName(text)}
+              disabled={false}
+            />
+
+            <button
+              className="bg-slate-800 hover:bg-orange-500 h-8 w-12 self-end hover:text-black text-xs text-bold text-white border-2 border-separate border-white rounded-md p-1"
+              type="submit"
+            >
+              Show
+            </button>
+          </div>
         </form>
       </div>
     </>

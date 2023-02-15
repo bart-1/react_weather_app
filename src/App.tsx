@@ -3,6 +3,7 @@ import { isIterable, validateEmptyValue } from "./assets/helpers";
 import * as empty from "./assets/empty.json";
 import Block from "./Block";
 import FormPanel from "./FormPanel";
+import Search from "./Search";
 
 function App() {
   const [cityName, setCityName] = useState("");
@@ -93,12 +94,13 @@ function App() {
   };
 
   return (
-    <div className="App m-0 p-3 box-border">
+    <div className="App box-border">
       <FormPanel
         sendCityName={(cityName) => setCityName(cityName)}
         sendCountryCode={(countryCode) => setCountryCode(countryCode)}
         labelCity="City name"
         labelCountry="Country code"
+        
       />
       <div className="grid grid-cols-4 mt-6 max-w-md max-h-90vh md:max-w-3xl gap-[8px] sm:grid-cols-4 sm:grid-rows-6 md:grid-cols-8 md:grid-rows-4 m-auto justify-center rounded-xl p-4 bg-gradient-to-b from-gray-900 to-black shadow-xl">
         {blockByKey("_icon", "main_icon")}
