@@ -96,16 +96,21 @@ export type ValueType = string | number;
 export type FlatObject = {[key: string] : ValueType};
 export type IterableObject = { [key: string]: ValueType | FlatObject };
 
-export const iterateObject = (dataPcs: IterableObject , masterKey = "") => {
-  let flatedArray: Array<FlatObject> = [];
-  Object.entries(dataPcs).map(([key, value]) => {
-    if (typeof value !== "object") {
-      flatedArray = [
-        ...flatedArray,
-        { [`${masterKey ? `${masterKey}_` : ""}${key}`]: value },
-      ];
-    } else iterateObject(value, `${masterKey ? `${masterKey}_` : ""}${key}`);
-  });
 
+export const iterateObject = (dataPcs: IterableObject, masterKey = "") => {
+  let flatedArray: Array<FlatObject> = [];
+ ( 
+  function iteration(dataPcs: IterableObject, masterKey = "") {
+    Object.entries(dataPcs).map(([key, value]) => {
+      if (typeof value !== "object") {
+        flatedArray = [
+          ...flatedArray,
+          { [`${masterKey ? `${masterKey}_` : ""}${key}`]: value },
+        ];
+      } else iteration(value, `${masterKey ? `${masterKey}_` : ""}${key}`);
+    });
+  })(dataPcs, masterKey)
+  
   return flatedArray;
+  
 };
