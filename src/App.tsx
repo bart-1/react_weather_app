@@ -5,17 +5,13 @@ import FormPanel from "./Components/FormPanel";
 import useFetchApi from "./helpers/useFetchApi";
 
 function App() {
-  const { setQuery, data, loadEmpty, dataLoading } = useFetchApi();
+  const [data, dataLoading, setQuery, loadEmpty] = useFetchApi();
   const [cityName, setCityName] = useState("");
   const [countryCode, setCountryCode] = useState("");
   const [dataArray, setDataArray] = useState<Array<FlatObject>>();
 
   useEffect(() => {
-    loadEmpty();
-  }, []);
-
-  useEffect(() => {
-    setQuery(`${countryCode}/${cityName}`);
+    if (countryCode && cityName) setQuery(`${countryCode}/${cityName}`);
 
     const mainTimer = setInterval(() => {
       setQuery(`${countryCode}/${cityName}`);
@@ -33,30 +29,30 @@ function App() {
   if (dataLoading) return <span>Data is loading...</span>;
   if (!dataArray) return <span>Data is loading...</span>;
 
-  const blocks = Object.values(dataArray).map((element) => {
-    console.log(dataArray)
-     const block = Object.entries(element).map(([key, value], index) => {
-        return (
-          <Block
-            blockTitle={key}
-            blockValue={validateEmptyValue(value)}
-            key={index}
-          />
-        );
-     });
-    return block;
-    });
+  const blocks = Object.values(dataArray).map((element, index) => {
+    const [[key, value]] = Object.entries(element);
+    return (
+      <Block
+        blockTitle={key}
+        blockValue={validateEmptyValue(value)}
+        key={index}
+      />
+    );
+  });
 
   const blockByKey = (keyToFind: string, blockTitle: string) => {
-    const filteredArray = dataArray.filter(
-      (element) => element.key === keyToFind
-    );
+    const filteredArray = Object.values(dataArray).filter((element) => {
+      const [[key, value]] = Object.entries(element);
+      if (key === keyToFind) return element;
+    });
 
+    let values: Array<ValueType> = [];
     if (filteredArray.length > 0) {
-      let values: Array<ValueType> = [];
-      filteredArray.forEach((element) => {
-        values = [...values, element.value];
+      Object.values(filteredArray).map((element) => {
+        const [[key, value]] = Object.entries(element);
+        values = [...values, value];
       });
+
       return (
         <Block blockTitle={blockTitle} blockValue={values} key={keyToFind} />
       );
@@ -72,8 +68,8 @@ function App() {
         labelCountry="Country code"
       />
       <div className="grid grid-cols-4 mt-6 max-w-md max-h-90vh md:max-w-3xl gap-[8px] sm:grid-cols-4 sm:grid-rows-6 md:grid-cols-8 md:grid-rows-4 m-auto justify-center rounded-xl p-4 bg-gradient-to-b from-gray-900 to-black shadow-xl">
-        {blockByKey("_icon", "main_icon")}
-        {blockByKey("_description", "descriptions")}
+        {blockByKey("weather_0_icon", "main_icon")}
+        {blockByKey("weather_0_description", "descriptions")}
         {blocks}
       </div>
     </div>

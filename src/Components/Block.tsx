@@ -10,15 +10,14 @@ interface BlockProps {
 const Block = ({ blockValue, blockTitle }: BlockProps) => {
   const [isValueArray, setIsValueArray] = useState(false);
   const [valueArrayKey, setValueArrayKey] = useState(0);
-  const [block, setBlock] = useState<BlockType>();
+  const block = setupBlocks(blockTitle, blockValue);
 
   useEffect(() => {
     if (Array.isArray(blockValue)) {
       setIsValueArray(true);
-    } else setBlock(setupBlocks(blockTitle, blockValue));
+    }
   }, []);
 
-  // if (!block) return <div>blocks...</div>;
 
   useEffect(() => {
     const blockValueTimer = setInterval(() => {
@@ -33,7 +32,7 @@ const Block = ({ blockValue, blockTitle }: BlockProps) => {
     };
   }, [isValueArray]);
 
-  return block && block.show ? (
+  return block.show ? (
     <div
       className={`flex grow-0 flex-col bg-gradient-to-b from-gray-900 to-transparent hover:bg-blue-600 shadow-xl ${block.className}`}
     >
