@@ -1,5 +1,11 @@
 import { ReactNode } from "react";
-import { epochTimeConverter, validateEmptyValue, ValueType, wind } from "./helpers";
+import {
+  epochTimeConverter,
+  FlatObject,
+  validateEmptyValue,
+  ValueType,
+  wind,
+} from "./helpers";
 
 export type BlockType = {
   show: boolean;
@@ -8,19 +14,15 @@ export type BlockType = {
   processedData: string | number | undefined;
   icon: ReactNode;
   className: string;
-  value: ValueType
+  value: ValueType | ValueType[];
 };
 
-function roundNumberValue(value: ValueType | undefined) {
-  if (!value) return "-"
-  
-  return Math.round(Number(value));
+function roundNumberValue(value: ValueType | ValueType[] | undefined) {
+  if (!value) return "-";
+  if (!Array.isArray(value)) return Math.round(Number(value));
 }
 
-export function setupBlocks(
-  text: string,
-  value: ValueType
-): BlockType {
+export function setupBlocks(text: string, value: ValueType | ValueType[]): BlockType {
   switch (true) {
     // coordinates
 

@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
-import InputField from "./Components/InputField";
-import { Codes, codes } from "./assets/codes";
+import InputField from "./InputField";
+import { Codes, codes } from "../assets/codes";
 
 interface SearchProps {
   sendCountryCode: (text: string) => void;
@@ -54,8 +54,8 @@ const Search = ({
           onClick={() => {
             setChoosedCountryCode(result.code);
             setChoosedCountryName(result.name);
-            setHideSearch(true)
-            setRefreshInput(prevState => !prevState)
+            setHideSearch(true);
+            setRefreshInput((prevState) => !prevState);
           }}
         >
           {result.name} - {result.code}

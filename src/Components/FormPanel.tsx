@@ -1,5 +1,5 @@
 import { SyntheticEvent, useState } from "react";
-import InputField from "./Components/InputField";
+import InputField from "./InputField";
 import Search from "./Search";
 
 interface FormPanelProps {

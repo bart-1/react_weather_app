@@ -1,6 +1,5 @@
 import { ReactNode } from "react";
 
-
 export const transformDate = (date: number) => {
   const convDate = new Date(date * 1000);
   const seconds = "0" + convDate.getSeconds();
@@ -12,13 +11,12 @@ export const transformDate = (date: number) => {
   }`;
 };
 
-export type ValueType = string | number | ValueType[];
 
-export const validateEmptyValue = (value: ValueType) => {
+export const validateEmptyValue = (value: ValueType | ValueType[]) => {
   if (!value) return "-";
 
   return value;
-}
+};
 
 /**
  * Return a human-readable data.
@@ -39,7 +37,7 @@ export const epochTimeConverter = (
   const day = "0" + date.getUTCDate();
   const seconds = "0" + date.getUTCSeconds();
   const minutes = "0" + date.getUTCMinutes();
-  const hoursTimezoneCorrection = "0" + (date.getUTCHours()+1);
+  const hoursTimezoneCorrection = "0" + (date.getUTCHours() + 1);
 
   return `${ymd ? year + "-" + month.slice(-2) + "-" + day.slice(-2) : ""} ${
     hms
@@ -76,7 +74,38 @@ export const wind = (deg: number) => {
   }
 };
 
-export const isIterable = (obj: any): boolean => {
+export const tripleObjectArrayManager = (object: object) => {
+  if (arrayStore.length < 3) {
+    arrayStore.push(object);
+  } else {
+    arrayStore.push(object);
+    arrayStore = arrayStore.slice(1);
+  }
+
+  return arrayStore;
+};
+
+export const isIterableObject = (obj: any): boolean => {
   if (typeof obj === "object" && obj !== null) return true;
   else return false;
+};
+
+let arrayStore = [{}];
+
+export type ValueType = string | number;
+export type FlatObject = {[key: string] : ValueType};
+export type IterableObject = { [key: string]: ValueType | FlatObject };
+
+export const iterateObject = (dataPcs: IterableObject , masterKey = "") => {
+  let flatedArray: Array<FlatObject> = [];
+  Object.entries(dataPcs).map(([key, value]) => {
+    if (typeof value !== "object") {
+      flatedArray = [
+        ...flatedArray,
+        { [`${masterKey ? `${masterKey}_` : ""}${key}`]: value },
+      ];
+    } else iterateObject(value, `${masterKey ? `${masterKey}_` : ""}${key}`);
+  });
+
+  return flatedArray;
 };
