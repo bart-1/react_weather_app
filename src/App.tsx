@@ -33,6 +33,8 @@ function App() {
   if (dataLoading) return <span>Data is loading...</span>;
   if (!dataArray) return <span>Data is loading...</span>;
 
+
+
   return (
     <div className="App box-border">
       <FormPanel
@@ -42,9 +44,12 @@ function App() {
         labelCountry="Country code"
       />
       <div className="grid grid-cols-4 mt-6 max-w-md max-h-90vh md:max-w-3xl gap-[8px] sm:grid-cols-4 sm:grid-rows-6 md:grid-cols-8 md:grid-rows-4 m-auto justify-center rounded-xl p-4 bg-gradient-to-b from-gray-900 to-black shadow-xl">
+
         {getBlocksByName("weather_0_icon", "main_icon")}
         {getBlocksByName("weather_0_description", "descriptions")}
         {getAllBlocks()}
+
+ 
       </div>
     </div>
   );
