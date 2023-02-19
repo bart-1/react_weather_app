@@ -33,7 +33,6 @@ function App() {
   if (dataLoading) return <span>Data is loading...</span>;
   if (!dataArray) return <span>Data is loading...</span>;
 
-
   return (
     <div className="App box-border">
       <FormPanel
