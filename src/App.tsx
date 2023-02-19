@@ -1,57 +1,21 @@
 import { useEffect, useState } from "react";
-import { isIterable, validateEmptyValue } from "./assets/helpers";
-import * as empty from "./assets/empty.json";
-import Block from "./Block";
-import FormPanel from "./FormPanel";
-import Search from "./Search";
+import { FlatObject } from "./helpers/helpers";
+import FormPanel from "./Components/FormPanel";
+import useFetchApi from "./helpers/useFetchApi";
+import useBlocksGenerator from "./helpers/useBlocksGenerator";
 
 function App() {
+  const [data, dataLoading, setQuery, loadEmpty] = useFetchApi();
   const [cityName, setCityName] = useState("");
   const [countryCode, setCountryCode] = useState("");
-  const [dataArray, setDataArray] = useState([]);
-  const [dataIsReady, setDataIsReady] = useState(false);
-
-  const iterateIt = (dataPcs: object, masterKey = "") => {
-    Object.entries(dataPcs).map(([key, value]) => {
-      if (!isIterable(value))
-        setDataArray((prevState) => ({
-          ...prevState,
-          [`${masterKey ? `${masterKey}_` : ""}${key}`]: value,
-        }));
-      else iterateIt(value, `${masterKey ? `${masterKey}_` : ""}${key}`);
-    });
-  };
-
-  const apiFetch = async (url: string) => {
-    const response = await fetch(url)
-      .then((response) => response.json())
-      .catch((response) => (response = empty));
-
-    setDataArray([]);
-
-    iterateIt(JSON.parse(response.weather));
-    setDataIsReady(true);
-  };
+  const [dataArray, setDataArray] = useState<Array<FlatObject>>();
+  const [getAllBlocks, getBlocksByName, setBlocksArray] = useBlocksGenerator();
 
   useEffect(() => {
-    setDataArray([]);
-
-    iterateIt(JSON.parse(empty.weather));
-  }, []);
-  
-  useEffect(() => {
-    setDataArray([]);
-
-    const apiData = apiFetch(
-      `https://dev-1.pl/weather-api/${countryCode}/${cityName}`
-    );
+    if (countryCode && cityName) setQuery(`${countryCode}/${cityName}`);
 
     const mainTimer = setInterval(() => {
-      setDataArray([]);
-      setDataIsReady(false);
-      const apiData = apiFetch(
-        `https://dev-1.pl/weather-api/${countryCode}/${cityName}`
-      );
+      setQuery(`${countryCode}/${cityName}`);
     }, 100000);
 
     return () => {
@@ -59,39 +23,17 @@ function App() {
     };
   }, [cityName, countryCode]);
 
-  if (!dataIsReady) return <span>Data is loading...</span>;
+  useEffect(() => {
+    if (!dataLoading) {
+      setDataArray(data);
+      setBlocksArray(data);
+    }
+  }, [dataLoading]);
 
-  const blocks = Object.entries(dataArray).map(([key, value], index) => {
-    return (
-      <Block
-        blockTitle={key}
-        blockValue={validateEmptyValue(value)}
-        key={index}
-      />
-    );
-  });
+  if (dataLoading) return <span>Data is loading...</span>;
+  if (!dataArray) return <span>Data is loading...</span>;
 
-  if (!blocks) return <div>Epmty</div>;
 
-  const blockByKey = (keyToFind: string, blockTitle: string) => {
-    const filteredArray = Object.entries(dataArray).filter(([key, value]) =>
-      key.includes(keyToFind)
-    );
-
-    if (filteredArray.length > 0) {
-      const arrayOfValues = filteredArray[0].filter(
-        (el, index) => index % 2 !== 0
-      );
-
-      return (
-        <Block
-          blockTitle={blockTitle}
-          blockValue={arrayOfValues}
-          key={keyToFind}
-        />
-      );
-    } else return null;
-  };
 
   return (
     <div className="App box-border">
@@ -100,12 +42,14 @@ function App() {
         sendCountryCode={(countryCode) => setCountryCode(countryCode)}
         labelCity="City name"
         labelCountry="Country code"
-        
       />
       <div className="grid grid-cols-4 mt-6 max-w-md max-h-90vh md:max-w-3xl gap-[8px] sm:grid-cols-4 sm:grid-rows-6 md:grid-cols-8 md:grid-rows-4 m-auto justify-center rounded-xl p-4 bg-gradient-to-b from-gray-900 to-black shadow-xl">
-        {blockByKey("_icon", "main_icon")}
-        {blockByKey("_description", "descriptions")}
-        {blocks}
+
+        {getBlocksByName("weather_0_icon", "main_icon")}
+        {getBlocksByName("weather_0_description", "descriptions")}
+        {getAllBlocks()}
+
+ 
       </div>
     </div>
   );

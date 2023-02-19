@@ -1,5 +1,11 @@
 import { ReactNode } from "react";
-import { epochTimeConverter, validateEmptyValue, ValueType, wind } from "./helpers";
+import {
+  epochTimeConverter,
+  FlatObject,
+  validateEmptyValue,
+  ValueType,
+  wind,
+} from "./helpers";
 
 export type BlockType = {
   show: boolean;
@@ -8,23 +14,19 @@ export type BlockType = {
   processedData: string | number | undefined;
   icon: ReactNode;
   className: string;
-  value: ValueType
+  value: ValueType | ValueType[];
 };
 
-function roundNumberValue(value: ValueType | undefined) {
-  if (!value) return "-"
-  
-  return Math.round(Number(value));
+function roundNumberValue(value: ValueType | ValueType[] | undefined) {
+  if (!value) return "-";
+  if (!Array.isArray(value)) return Math.round(Number(value));
 }
 
-export function setupBlocks(
-  text: string,
-  value: ValueType
-): BlockType {
+export function setupBlocks(key: string, value: ValueType | ValueType[]): BlockType {
   switch (true) {
     // coordinates
 
-    case text === "coord_lon":
+    case key === "coord_lon":
       return {
         value: validateEmptyValue(value),
         show: false,
@@ -34,7 +36,7 @@ export function setupBlocks(
         icon: false,
         className: "",
       };
-    case text === "coord_lat":
+    case key === "coord_lat":
       return {
         value: validateEmptyValue(value),
         show: false,
@@ -47,7 +49,7 @@ export function setupBlocks(
 
     // description
 
-    case text.includes("_main"):
+    case key.includes("_main"):
       return {
         value: validateEmptyValue(value),
         show: false,
@@ -57,7 +59,7 @@ export function setupBlocks(
         icon: false,
         className: "",
       };
-    case text === "descriptions":
+    case key === "descriptions":
       return {
         value: validateEmptyValue(value),
         show: true,
@@ -67,7 +69,7 @@ export function setupBlocks(
         icon: false,
         className: "col-span-4",
       };
-    case text === "weather_0_description":
+    case key === "weather_0_description":
       return {
         value: validateEmptyValue(value),
         show: false,
@@ -77,7 +79,7 @@ export function setupBlocks(
         icon: false,
         className: "col-span-4",
       };
-    case text.includes("_description"):
+    case key.includes("_description"):
       return {
         value: validateEmptyValue(value),
         show: false,
@@ -90,7 +92,7 @@ export function setupBlocks(
 
     // icons
 
-    case text === "weather_0_icon":
+    case key === "weather_0_icon":
       return {
         value: validateEmptyValue(value),
         show: false,
@@ -100,7 +102,7 @@ export function setupBlocks(
         icon: false,
         className: "",
       };
-    case text === "main_icon":
+    case key === "main_icon":
       return {
         value: validateEmptyValue(value),
         show: true,
@@ -111,7 +113,7 @@ export function setupBlocks(
         className:
           "col-span-2 row-span-4 sm:col-span-2 md:col-span-3 md:row-span-3 ",
       };
-    case text.includes("_icon"):
+    case key.includes("_icon"):
       return {
         value: validateEmptyValue(value),
         show: false,
@@ -124,7 +126,7 @@ export function setupBlocks(
 
     //temperature
 
-    case text === "main_temp":
+    case key === "main_temp":
       return {
         value: validateEmptyValue(value),
         show: true,
@@ -134,7 +136,7 @@ export function setupBlocks(
         icon: false,
         className: "col-span-2 md:col-span-1",
       };
-    case text === "main_feels_like":
+    case key === "main_feels_like":
       return {
         value: validateEmptyValue(value),
         show: true,
@@ -144,7 +146,7 @@ export function setupBlocks(
         icon: false,
         className: "col-span-2 sm:col-span-1",
       };
-    case text === "main_temp_min":
+    case key === "main_temp_min":
       return {
         value: validateEmptyValue(value),
         show: true,
@@ -154,7 +156,7 @@ export function setupBlocks(
         icon: false,
         className: "col-span-2",
       };
-    case text === "main_temp_max":
+    case key === "main_temp_max":
       return {
         value: validateEmptyValue(value),
         show: true,
@@ -167,7 +169,7 @@ export function setupBlocks(
 
     //pressure
 
-    case text === "main_pressure":
+    case key === "main_pressure":
       return {
         value: validateEmptyValue(value),
         show: true,
@@ -180,7 +182,7 @@ export function setupBlocks(
 
     //humidity
 
-    case text === "main_humidity":
+    case key === "main_humidity":
       return {
         value: validateEmptyValue(value),
         show: true,
@@ -193,7 +195,7 @@ export function setupBlocks(
 
     //visibility
 
-    case text === "visibility":
+    case key === "visibility":
       return {
         value: validateEmptyValue(value),
         show: true,
@@ -206,7 +208,7 @@ export function setupBlocks(
 
     //wind
 
-    case text === "wind_speed":
+    case key === "wind_speed":
       return {
         value: validateEmptyValue(value),
         show: true,
@@ -216,7 +218,7 @@ export function setupBlocks(
         icon: false,
         className: "col-span-2",
       };
-    case text === "wind_deg":
+    case key === "wind_deg":
       return {
         value: validateEmptyValue(value),
         show: true,
@@ -226,7 +228,7 @@ export function setupBlocks(
         icon: false,
         className: "col-span-2 sm:col-span-1",
       };
-    case text === "wind_gust":
+    case key === "wind_gust":
       return {
         value: validateEmptyValue(value),
         show: true,
@@ -239,7 +241,7 @@ export function setupBlocks(
 
     //clouds
 
-    case text === "clouds_all":
+    case key === "clouds_all":
       return {
         value: validateEmptyValue(value),
         show: true,
@@ -252,7 +254,7 @@ export function setupBlocks(
 
     // rainfall and snowfall
 
-    case text === "rain_1h":
+    case key === "rain_1h":
       return {
         value: validateEmptyValue(value),
         show: true,
@@ -262,7 +264,7 @@ export function setupBlocks(
         icon: false,
         className: "col-span-2",
       };
-    case text === "rain_3h":
+    case key === "rain_3h":
       return {
         value: validateEmptyValue(value),
         show: false,
@@ -272,7 +274,7 @@ export function setupBlocks(
         icon: false,
         className: "col-span-2",
       };
-    case text === "snow_1h":
+    case key === "snow_1h":
       return {
         value: validateEmptyValue(value),
         show: true,
@@ -282,7 +284,7 @@ export function setupBlocks(
         icon: false,
         className: "col-span-2",
       };
-    case text === "snow_3h":
+    case key === "snow_3h":
       return {
         value: validateEmptyValue(value),
         show: false,
@@ -295,7 +297,7 @@ export function setupBlocks(
 
     // country & city
 
-    case text === "sys_country":
+    case key === "sys_country":
       return {
         value: validateEmptyValue(value),
         show: false,
@@ -306,7 +308,7 @@ export function setupBlocks(
         className: "",
       };
 
-    case text === "name":
+    case key === "name":
       return {
         value: validateEmptyValue(value),
         show: true,
@@ -319,7 +321,7 @@ export function setupBlocks(
 
     //time & date
 
-    case text === "dt": //time of data calculation
+    case key === "dt": //time of data calculation
       return {
         value: validateEmptyValue(value),
         show: true,
@@ -330,7 +332,7 @@ export function setupBlocks(
         className: "col-span-4 order-last",
       };
 
-    case text === "sys_sunrise":
+    case key === "sys_sunrise":
       return {
         value: validateEmptyValue(value),
         show: true,
@@ -340,7 +342,7 @@ export function setupBlocks(
         icon: false,
         className: "col-span-2",
       };
-    case text === "sys_sunset":
+    case key === "sys_sunset":
       return {
         value: validateEmptyValue(value),
         show: true,
@@ -350,7 +352,7 @@ export function setupBlocks(
         icon: false,
         className: "col-span-2",
       };
-    case text === "timezone":
+    case key === "timezone":
       return {
         value: validateEmptyValue(value),
         show: false,
@@ -363,7 +365,7 @@ export function setupBlocks(
 
     // API server internal data
 
-    case text.includes("_id"):
+    case key.includes("_id"):
       return {
         value: validateEmptyValue(value),
         show: false,
@@ -373,7 +375,7 @@ export function setupBlocks(
         icon: false,
         className: "",
       };
-    case text === "base":
+    case key === "base":
       return {
         value: validateEmptyValue(value),
         show: false,
@@ -383,7 +385,7 @@ export function setupBlocks(
         icon: false,
         className: "",
       };
-    case text === "sys_type":
+    case key === "sys_type":
       return {
         value: validateEmptyValue(value),
         show: false,
@@ -393,7 +395,7 @@ export function setupBlocks(
         icon: false,
         className: "",
       };
-    case text === "sys_id":
+    case key === "sys_id":
       return {
         value: validateEmptyValue(value),
         show: false,
@@ -403,7 +405,7 @@ export function setupBlocks(
         icon: false,
         className: "",
       };
-    case text === "cod":
+    case key === "cod":
       return {
         value: validateEmptyValue(value),
         show: false,
@@ -413,7 +415,7 @@ export function setupBlocks(
         icon: false,
         className: "",
       };
-    case text === "id":
+    case key === "id":
       return {
         value: validateEmptyValue(value),
         show: false,

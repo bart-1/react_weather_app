@@ -7,11 +7,16 @@
     "tailwind": "npx tailwindcss -i ./src/index.css -o ./public/assets/output.css --watch",
     "dev": "vite",
     "build": "tsc && vite build",
-    "preview": "vite preview"
+    "preview": "vite preview",
+    "tab:dev": "ttab -t 'dev' npm run dev",
+    "tab:tailwind": "ttab -t 'tailwind' npm run tailwind",
+    "start": "run-s tab:dev tab:tailwind"
   },
   "dependencies": {
+    "npm-run-all": "^4.1.5",
     "react": "^18.2.0",
-    "react-dom": "^18.2.0"
+    "react-dom": "^18.2.0",
+    "ttab": "^0.8.0"
   },
   "devDependencies": {
     "@types/react": "^18.0.15",
