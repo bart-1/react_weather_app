@@ -1,6 +1,10 @@
 import React from "react";
 import { useState } from "react";
-import { FlatObject, validateEmptyValue, ValueType } from "./helpers";
+import {
+  FlatObject,
+  validateEmptyValue,
+  ValueType,
+} from "./helpers";
 import Block from "../Components/Block";
 
 const useBlocksGenerator = () => {
@@ -21,12 +25,14 @@ const useBlocksGenerator = () => {
   };
 
   const getAllBlocks = () => {
-    if(blocksData) {const blocks = Object.values(blocksData).map((element, index) => {
-      const [[key, value]] = Object.entries(element);
+    if (blocksData) {
+      const blocks = Object.values(blocksData).map((element, index) => {
+        const [[key, value]] = Object.entries(element);
+        return render(key, value, index);
+      });
 
-      return render(key, value, index);
-    });
-    return blocks;}
+      return blocks;
+    }
   };
   const getBlocksByName = (keyToFind: string, blockTitle: string) => {
     if (blocksData) {

@@ -111,7 +111,7 @@ export function setupBlocks(key: string, value: ValueType | ValueType[]): BlockT
         processedData: " ",
         icon: true,
         className:
-          "col-span-2 row-span-4 sm:col-span-2 md:col-span-3 md:row-span-3 ",
+          "col-span-4 row-span-2 md:col-span-3 md:row-span-3 ",
       };
     case key.includes("_icon"):
       return {
@@ -144,7 +144,7 @@ export function setupBlocks(key: string, value: ValueType | ValueType[]): BlockT
         unit: "\u{2103}",
         processedData: roundNumberValue(value),
         icon: false,
-        className: "col-span-2 sm:col-span-1",
+        className: "col-span-2 md:col-span-1",
       };
     case key === "main_temp_min":
       return {
@@ -190,7 +190,29 @@ export function setupBlocks(key: string, value: ValueType | ValueType[]): BlockT
         unit: "\u{0025}",
         processedData: "",
         icon: false,
-        className: "col-span-2 sm:col-span-1",
+        className: "col-span-2 md:col-span-1",
+      };
+
+    //sea & grnd level
+    case key === "main_sea_level":
+      return {
+        value: validateEmptyValue(value),
+        show: false,
+        title: "Sea lvl",
+        unit: "m",
+        processedData: "",
+        icon: false,
+        className: "col-span-2 md:col-span-1",
+      };
+    case key === "main_grnd_level":
+      return {
+        value: validateEmptyValue(value),
+        show: false,
+        title: "Ground lvl",
+        unit: "m",
+        processedData: "",
+        icon: false,
+        className: "col-span-2 md:col-span-1",
       };
 
     //visibility
@@ -226,7 +248,7 @@ export function setupBlocks(key: string, value: ValueType | ValueType[]): BlockT
         unit: typeof value === "number" ? wind(value) : "\u{2022}",
         processedData: " ",
         icon: false,
-        className: "col-span-2 sm:col-span-1",
+        className: "col-span-2 md:col-span-1",
       };
     case key === "wind_gust":
       return {
@@ -236,7 +258,7 @@ export function setupBlocks(key: string, value: ValueType | ValueType[]): BlockT
         unit: "m/s",
         processedData: " ",
         icon: false,
-        className: "col-span-2 sm:col-span-1",
+        className: "col-span-2 md:col-span-1",
       };
 
     //clouds
@@ -249,7 +271,7 @@ export function setupBlocks(key: string, value: ValueType | ValueType[]): BlockT
         unit: "\u{0025}",
         processedData: "",
         icon: false,
-        className: "col-span-2 sm:col-span-1",
+        className: "col-span-2 md:col-span-1",
       };
 
     // rainfall and snowfall

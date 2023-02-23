@@ -18,11 +18,14 @@ const Block = ({ blockValue, blockTitle }: BlockProps) => {
     }
   }, []);
 
-
   useEffect(() => {
     const blockValueTimer = setInterval(() => {
       setValueArrayKey((prevState) => {
-        if (block && Array.isArray(block.value) && prevState < block.value.length - 1)
+        if (
+          block &&
+          Array.isArray(block.value) &&
+          prevState < block.value.length - 1
+        )
           return prevState + 1;
         else return (prevState = 0);
       });
@@ -34,20 +37,25 @@ const Block = ({ blockValue, blockTitle }: BlockProps) => {
 
   return block.show ? (
     <div
-      className={`flex grow-0 flex-col bg-gradient-to-b from-gray-900 to-transparent hover:bg-blue-600 shadow-xl ${block.className}`}
+      className={`flex grow-0 flex-col max-h-40 md:max-h-full bg-gradient-to-b from-darksky-mid to-black border-2 border-black rounded-md ${block.className}`}
     >
-      <span className="text-xs p-1 md:p-3 text-white rounded-t-xl">
-        {block.title ? block.title : blockTitle}
-      </span>
+      {block.title ?
+        <span className="text-xs p-1 md:p-3 text-white rounded-t-xl">
+          {block.title}
+        </span> : null}
       {block.icon ? (
         isValueArray && Array.isArray(block.value) ? (
-          <img src={`./assets/icons/${block.value[valueArrayKey]}.svg`}></img>
+          <div className="flex h-full justify-center">
+            <img src={`./assets/icons/${block.value[valueArrayKey]}.svg`}></img>
+          </div>
         ) : (
-          <img src={`./assets/icons/${block.value}.svg`}></img>
+          <div className="flex h-full justify-center">
+            <img src={`./assets/icons/${block.value}.svg`}></img>
+          </div>
         )
       ) : null}
       <span
-        className={`text-red-500 p-2 md:p-3 text-sm md:text-xl font-bold text-center`}
+        className={`text-led-red-on p-2 md:p-3 text-sm md:text-xl font-bold text-center`}
       >
         {block.processedData
           ? `${block.processedData} ${block.unit}`

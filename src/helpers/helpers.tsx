@@ -11,7 +11,6 @@ export const transformDate = (date: number) => {
   }`;
 };
 
-
 export const validateEmptyValue = (value: ValueType | ValueType[]) => {
   if (!value) return "-";
 
@@ -93,14 +92,12 @@ export const isIterableObject = (obj: any): boolean => {
 let arrayStore = [{}];
 
 export type ValueType = string | number;
-export type FlatObject = {[key: string] : ValueType};
+export type FlatObject = { [key: string]: ValueType };
 export type IterableObject = { [key: string]: ValueType | FlatObject };
-
 
 export const iterateObject = (dataPcs: IterableObject, masterKey = "") => {
   let flatedArray: Array<FlatObject> = [];
- ( 
-  function iteration(dataPcs: IterableObject, masterKey = "") {
+  (function iteration(dataPcs: IterableObject, masterKey = "") {
     Object.entries(dataPcs).map(([key, value]) => {
       if (typeof value !== "object") {
         flatedArray = [
@@ -109,8 +106,10 @@ export const iterateObject = (dataPcs: IterableObject, masterKey = "") => {
         ];
       } else iteration(value, `${masterKey ? `${masterKey}_` : ""}${key}`);
     });
-  })(dataPcs, masterKey)
-  
+  })(dataPcs, masterKey);
+
   return flatedArray;
-  
 };
+
+
+
