@@ -82,9 +82,7 @@ const Search = ({
             </div>
           )}
       </div>
-      <div className="w-6 h-6 rounded-sm text-gray-700 text-xs text-center self-end p-0 items-center">
-        <span>{choosedCountryCode}</span>
-      </div>
+      
     </>
   );
 };

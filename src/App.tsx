@@ -42,6 +42,7 @@ function App() {
   const [countryCode, setCountryCode] = useState("");
   const [dataArray, setDataArray] = useState<Array<FlatObject>>();
   const [getAllBlocks, getBlocksByName, setBlocksArray] = useBlocksGenerator();
+  const [pressedButton, setPressedButton] = useState("");
 
   useEffect(() => {
     if (countryCode && cityName) setQuery(`${countryCode}/${cityName}`);
@@ -68,19 +69,26 @@ function App() {
   return (
     <div className="App box-border">
       <div className="grid grid-cols-4 mt-3 max-w-md max-h-90vh md:max-w-3xl gap-[4px] sm:grid-cols-4 md:grid-cols-8 md:grid-rows-4 m-auto justify-center rounded-xl p-4 bg-darksky-max shadow-xl">
-      <div className="col-span-4 col-rows-2 sm:col-span-4 md:col-rows-1 md:col-span-8 ">
+        <div className="col-span-4 col-rows-2 sm:col-span-4 md:col-rows-1 md:col-span-8 ">
           <FormPanel
-          sendCityName={(cityName) => setCityName(cityName)}
-          sendCountryCode={(countryCode) => setCountryCode(countryCode)}
-          labelCity="City name"
-          labelCountry="Country code"
-        />
-      </div>
+            sendCityName={(cityName) => setCityName(cityName)}
+            sendCountryCode={(countryCode) => setCountryCode(countryCode)}
+            labelCity="City name"
+            labelCountry="Country code"
+          />
+        </div>
         {getBlocksByName("weather_0_icon", "main_icon")}
         {getBlocksByName("weather_0_description", "descriptions")}
         {getAllBlocks()}
       </div>
-      <ButtonsPanel buttonsData={buttonsDataSet} />
+      <ButtonsPanel
+        pressedButton={pressedButton}
+        buttonsData={buttonsDataSet}
+        outputAction={(country: string, city: string, id:string) =>{
+          setQuery(`${country}/${city}`)
+          setPressedButton(id)}
+        }
+      />
     </div>
   );
 }

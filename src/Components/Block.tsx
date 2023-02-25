@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { FlatObject, ValueType } from "../helpers/helpers";
-import { BlockType, setupBlocks } from "../helpers/setupBlocks";
+import { BlockType, setupBlocks } from "../setupBlocks";
 
 interface BlockProps {
   blockValue: ValueType | ValueType[];
@@ -39,10 +39,11 @@ const Block = ({ blockValue, blockTitle }: BlockProps) => {
     <div
       className={`flex grow-0 flex-col max-h-40 md:max-h-full bg-gradient-to-b from-darksky-mid to-black border-2 border-black rounded-md ${block.className}`}
     >
-      {block.title ?
+      {block.title ? (
         <span className="text-xs p-1 md:p-3 text-white rounded-t-xl">
           {block.title}
-        </span> : null}
+        </span>
+      ) : null}
       {block.icon ? (
         isValueArray && Array.isArray(block.value) ? (
           <div className="flex h-full justify-center">

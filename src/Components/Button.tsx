@@ -136,7 +136,7 @@ const Button = ({
         <div
           className={`w-6 h-0.5 rounded-xl ${
             buttonHover
-              ? `${buttonClicked ? `bg-led-green-on` : `bg-led-green-off`}`
+              ? `${buttonClicked ? `bg-led-green-on` : `bg-yellow-400`}`
               : `${isOn ? `bg-led-green-on` : `bg-led-orange-on`}`
           }`}
         ></div>

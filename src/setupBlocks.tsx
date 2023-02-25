@@ -5,7 +5,7 @@ import {
   validateEmptyValue,
   ValueType,
   wind,
-} from "./helpers";
+} from "./helpers/helpers";
 
 export type BlockType = {
   show: boolean;
@@ -22,7 +22,10 @@ function roundNumberValue(value: ValueType | ValueType[] | undefined) {
   if (!Array.isArray(value)) return Math.round(Number(value));
 }
 
-export function setupBlocks(key: string, value: ValueType | ValueType[]): BlockType {
+export function setupBlocks(
+  key: string,
+  value: ValueType | ValueType[]
+): BlockType {
   switch (true) {
     // coordinates
 
@@ -110,8 +113,7 @@ export function setupBlocks(key: string, value: ValueType | ValueType[]): BlockT
         unit: "",
         processedData: " ",
         icon: true,
-        className:
-          "col-span-4 row-span-2 md:col-span-3 md:row-span-3 ",
+        className: "col-span-4 row-span-2 md:col-span-3 md:row-span-3 ",
       };
     case key.includes("_icon"):
       return {
@@ -253,7 +255,7 @@ export function setupBlocks(key: string, value: ValueType | ValueType[]): BlockT
     case key === "wind_gust":
       return {
         value: validateEmptyValue(value),
-        show: true,
+        show: false,
         title: "Wind gust",
         unit: "m/s",
         processedData: " ",
