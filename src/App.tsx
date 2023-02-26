@@ -84,8 +84,10 @@ function App() {
       <ButtonsPanel
         pressedButton={pressedButton}
         buttonsData={buttonsDataSet}
-        outputAction={(country: string, city: string, id:string) =>{
-          setQuery(`${country}/${city}`)
+        outputAction={(country: string, city: string, id: string) => {
+          setCityName(city);
+          setCountryCode(country);
+          // setQuery(`${country}/${city}`)
           setPressedButton(id)}
         }
       />
