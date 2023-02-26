@@ -1,7 +1,7 @@
 {
   "name": "react_weather_app",
   "private": true,
-  "version": "0.0.0",
+  "version": "0.8.0",
   "type": "module",
   "scripts": {
     "tailwind": "npx tailwindcss -i ./src/index.css -o ./public/assets/output.css --watch",
