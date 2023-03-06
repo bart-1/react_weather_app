@@ -1,10 +1,11 @@
-import { SyntheticEvent, useEffect, useState } from "react";
+import { MutableRefObject, SyntheticEvent, useEffect, useRef, useState } from "react";
 import { FlatObject } from "./helpers/helpers";
 import FormPanel from "./Components/FormPanel";
 import ButtonsPanel from "./Components/ButtonsPanel";
 import useFetchApi from "./helpers/useFetchApi";
 import useBlocksGenerator from "./helpers/useBlocksGenerator";
 import { ButtonType } from "./Components/Button";
+import WeatherBlocks from "./WeatherBlocks";
 
 const buttonsDataSet: Array<ButtonType> = [
   {
@@ -37,34 +38,10 @@ const buttonsDataSet: Array<ButtonType> = [
 ];
 
 function App() {
-  const [data, dataLoading, setQuery, loadEmpty] = useFetchApi();
   const [cityName, setCityName] = useState("");
   const [countryCode, setCountryCode] = useState("");
-  const [dataArray, setDataArray] = useState<Array<FlatObject>>();
-  const [getAllBlocks, getBlocksByName, setBlocksArray] = useBlocksGenerator();
   const [pressedButton, setPressedButton] = useState("");
 
-  useEffect(() => {
-    if (countryCode && cityName) setQuery(`${countryCode}/${cityName}`);
-
-    const mainTimer = setInterval(() => {
-      setQuery(`${countryCode}/${cityName}`);
-    }, 100000);
-
-    return () => {
-      clearInterval(mainTimer);
-    };
-  }, [cityName, countryCode]);
-
-  useEffect(() => {
-    if (!dataLoading) {
-      setDataArray(data);
-      setBlocksArray(data);
-    }
-  }, [dataLoading]);
-
-  if (dataLoading) return <span>Data is loading...</span>;
-  if (!dataArray) return <span>Data is loading...</span>;
 
   return (
     <div className="App box-border">
@@ -77,9 +54,8 @@ function App() {
             labelCountry="Country code"
           />
         </div>
-        {getBlocksByName("weather_0_icon", "main_icon")}
-        {getBlocksByName("weather_0_description", "descriptions")}
-        {getAllBlocks()}
+        <WeatherBlocks city={cityName } country={countryCode} />
+    
       </div>
       <ButtonsPanel
         pressedButton={pressedButton}
@@ -87,7 +63,6 @@ function App() {
         outputAction={(country: string, city: string, id: string) => {
           setCityName(city);
           setCountryCode(country);
-          // setQuery(`${country}/${city}`)
           setPressedButton(id)}
         }
       />
