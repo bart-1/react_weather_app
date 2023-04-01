@@ -1,25 +1,26 @@
 import React, { useEffect, useState } from "react";
-import useFetchApi from "../helpers/useFetchApi";
 import Button, { ButtonType } from "./Button";
 
 interface ButtonsPanelProps {
-  outputAction: (contry: string, city: string, id:string) => void;
+  outputAction: (contry: string, city: string, id: string) => void;
   buttonsData: ButtonType[];
   pressedButton?: string;
 }
 
-const ButtonsPanel = ({ outputAction, buttonsData, pressedButton }: ButtonsPanelProps) => {
+const ButtonsPanel = ({
+  outputAction,
+  buttonsData,
+  pressedButton,
+}: ButtonsPanelProps) => {
   const [isOn, setIsOn] = useState("");
-  const [data, dataLoading, setQuery, loadEmpty] = useFetchApi();
 
   const onOffHandler = (id: string, city: string) => {
     setIsOn(id);
     outputAction("pl", city, id);
   };
   useEffect(() => {
-    if(pressedButton)
-    setIsOn(pressedButton);
-  }, [pressedButton] );
+    if (pressedButton) setIsOn(pressedButton);
+  }, [pressedButton]);
 
   const buttonsGenerator = buttonsData.map((button, index) => {
     return (

@@ -91,24 +91,24 @@ export const isIterableObject = (obj: any): boolean => {
 
 let arrayStore = [{}];
 
-export type ValueType = string | number;
-export type FlatObject = { [key: string]: ValueType };
-export type IterableObject = { [key: string]: ValueType | FlatObject };
+ type ValueType = string | number;
+ type FlatObject = { [key: string]: ValueType };
+ type IterableObject = { [key: string]: ValueType | FlatObject };
 
 export const iterateObject = (dataPcs: IterableObject, masterKey = "") => {
-  let flatedArray: Array<FlatObject> = [];
+  let newObject = {} as FlatObject;
   (function iteration(dataPcs: IterableObject, masterKey = "") {
     Object.entries(dataPcs).map(([key, value]) => {
       if (typeof value !== "object") {
-        flatedArray = [
-          ...flatedArray,
-          { [`${masterKey ? `${masterKey}_` : ""}${key}`]: value },
-        ];
+        newObject[
+          `${masterKey ? `${masterKey}_` : ""}${key}`
+        ] = value;
+      
       } else iteration(value, `${masterKey ? `${masterKey}_` : ""}${key}`);
     });
   })(dataPcs, masterKey);
 
-  return flatedArray;
+  return newObject;
 };
 
 

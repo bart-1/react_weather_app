@@ -1,53 +1,54 @@
 import React, { useEffect, useState } from "react";
-import { FlatObject } from "./helpers/helpers";
-import useBlocksGenerator from "./helpers/useBlocksGenerator";
-import useFetchApi from "./helpers/useFetchApi";
+import { useQueryClient } from "react-query";
+import Block from "./Components/Block";
+import useFetchApi from "./hooks/useFetchApi";
+import { apiURL } from "./hooks/useFetchApi";
 
 interface WeatherBlocksProps {
   city: string;
-  country: string;
+  countryCode: string;
 }
 
-const WeatherBlocks = ({city, country}:WeatherBlocksProps) => {
-  const [data, dataLoading, setQuery, loadEmpty] = useFetchApi();
-  const [cityName, setCityName] = useState("");
-  const [countryCode, setCountryCode] = useState("");
-  const [dataArray, setDataArray] = useState<Array<FlatObject>>();
-    const [getAllBlocks, getBlocksByName, setBlocksArray] = useBlocksGenerator();
-    
+const WeatherBlocks = ({ city, countryCode }: WeatherBlocksProps) => {
 
-    useEffect(() => {
-        setCityName(city);
-        setCountryCode(country);
-    },[city, country])
+  const queryClient = useQueryClient();
+  const { setQuery, status, weather } = useFetchApi();
 
   useEffect(() => {
-    if (countryCode && cityName) setQuery(`${countryCode}/${cityName}`);
+    if (city && countryCode) {
+      setQuery(`${apiURL}/${countryCode}/${city}`);
+    }
+  }, []);
 
-    const mainTimer = setInterval(() => {
-      setQuery(`${countryCode}/${cityName}`);
-    }, 100000);
+  useEffect(() => {
+    let mainTimer: ReturnType<typeof setInterval>;
+
+    if (city && countryCode) {
+      setQuery(`${apiURL}/${countryCode}/${city}`);
+      mainTimer = setInterval(() => {
+        setQuery(`${apiURL}/${countryCode}/${city}`);
+      }, 10000);
+    }
 
     return () => {
       clearInterval(mainTimer);
     };
-  }, [cityName, countryCode]);
-
-  useEffect(() => {
-    if (!dataLoading) {
-      setDataArray(data);
-      setBlocksArray(data);
-    }
-  }, [dataLoading]);
-
-  if (dataLoading) return <span>Data is loading...</span>;
-  if (!dataArray) return <span>Data is loading...</span>;
+  }, [city, countryCode]);
 
   return (
     <>
-      {getBlocksByName("weather_0_icon", "main_icon")}
-      {getBlocksByName("weather_0_description", "descriptions")}
-      {getAllBlocks()}
+   
+        <Block blockValue={weather!.main.temp} blockTitle={"temp"} />
+        <Block blockValue={weather!.main.temp} blockTitle={"temp"} />
+        <Block blockValue={weather!.main.temp} blockTitle={"temp"} />
+        <Block blockValue={weather!.main.temp} blockTitle={"temp"} />
+        <Block blockValue={weather!.main.temp} blockTitle={"temp"} />
+        <Block blockValue={weather!.main.temp} blockTitle={"temp"} />
+        <Block blockValue={weather!.main.temp} blockTitle={"temp"} />
+        <Block blockValue={weather!.main.temp} blockTitle={"temp"} />
+        <Block blockValue={weather!.main.temp} blockTitle={"temp"} />
+     
+    
     </>
   );
 };
