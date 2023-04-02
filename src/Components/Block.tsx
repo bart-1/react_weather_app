@@ -1,5 +1,4 @@
 import { useEffect, useState } from "react";
-import { setupBlocks } from "../setupBlocks";
 
 interface BlockProps {
   value: string | number | boolean;
