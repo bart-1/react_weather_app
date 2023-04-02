@@ -17,6 +17,14 @@ export const validateEmptyValue = (value: ValueType | ValueType[]) => {
   return value;
 };
 
+export const roundNumberValue = (value: number) => {
+  return Math.round(Number(value));
+};
+
+export const convertTimestamp = (value: string) => {
+  return value.slice(0, 19).replace("T", " ")
+}
+
 /**
  * Return a human-readable data.
  * @param time epoch value of time
@@ -91,25 +99,19 @@ export const isIterableObject = (obj: any): boolean => {
 
 let arrayStore = [{}];
 
- type ValueType = string | number;
- type FlatObject = { [key: string]: ValueType };
- type IterableObject = { [key: string]: ValueType | FlatObject };
+type ValueType = string | number;
+type FlatObject = { [key: string]: ValueType };
+type IterableObject = { [key: string]: ValueType | FlatObject };
 
 export const iterateObject = (dataPcs: IterableObject, masterKey = "") => {
   let newObject = {} as FlatObject;
   (function iteration(dataPcs: IterableObject, masterKey = "") {
     Object.entries(dataPcs).map(([key, value]) => {
       if (typeof value !== "object") {
-        newObject[
-          `${masterKey ? `${masterKey}_` : ""}${key}`
-        ] = value;
-      
+        newObject[`${masterKey ? `${masterKey}_` : ""}${key}`] = value;
       } else iteration(value, `${masterKey ? `${masterKey}_` : ""}${key}`);
     });
   })(dataPcs, masterKey);
 
   return newObject;
 };
-
-
-
