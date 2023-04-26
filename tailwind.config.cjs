@@ -6,9 +6,9 @@ module.exports = {
     extend: {
       colors: {
         darksky: {
-          max: "#00000C",
-          mid: "#121825",
-          min: "#0F0F32",
+          max: "#121825",
+          mid: "#14203E",
+          min: "#142064",
         },
         led: {
           orange: {
