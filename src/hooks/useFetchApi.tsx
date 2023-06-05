@@ -1,70 +1,104 @@
-import { useEffect, useMemo, useState } from "react";
-import { useQuery, useQueryClient } from "react-query";
+import { useEffect, useState } from "react";
+import { QueryClient, useQuery, useQueryClient } from "react-query";
 import {
   CurrentWeatherModel,
   emptyCurrentWeather,
 } from "../models/CurrentWeatherModel";
 import { WeatherApiModel, emptyWeatherApi } from "../models/WeatherApiModel";
-import { WeatherBlocksProps } from "../WeatherBlocks";
+import { useWeatherState } from "./useAppState";
 
-export const apiURL = `https://dziwnykot.pl/weather-api-second`;
+export type StatusProp = "idle" | "error" | "loading" | "success";
 
-const useFetchApi = () => {
-  const [city, setCity] = useState("");
-  const [country, setCountry] = useState("");
-  const [url, setUrl] = useState("");
-  const [weather, setWeather] =
-    useState<CurrentWeatherModel>(emptyCurrentWeather);
-  const [timestamp, setTimestamp] = useState("");
+export const useFetchApi = <T,>(emptyModel: T, observedKeys: string[]) => {
   const queryClient = useQueryClient();
 
-  const { data, status, refetch } = useQuery({
+  const [returnedData, setReturnedData] = useState<T>(emptyModel);
+  const [url, setUrl] = useState("");
+  const [status, setStatus] = useState<StatusProp>("idle");
+
+  const { data, refetch } = useQuery({
     enabled: !!url,
     retry: true,
-    queryKey: ["city", { city: city }, "country", country, "weather", url],
-    queryFn: async (): Promise<WeatherApiModel> => {
+    queryKey: [...observedKeys, url],
+    queryFn: async (): Promise<T> => {
+      setStatus("loading");
       const response = await fetch(url).then((response) => {
-        if (response.headers.get("content-type") === "text/html") {
-          const emptyWeather = emptyWeatherApi;
-          emptyWeather.weather = JSON.stringify(emptyCurrentWeather);
-
-          return emptyWeather;
-        } else if (response.headers.get("content-type") === "application/json")
+        if (!response.ok) throw new Error("Connection problems");
+        else if (response.headers.get("content-type") === "text/html") {
+          setStatus("error");
+          return Promise.reject(new Error("found nothing"));
+        } else if (
+          response.headers.get("content-type") === "application/json"
+        ) {
+          setStatus("success");
           return response.json();
+        }
       });
-
       return response;
     },
+    refetchInterval: 10000,
   });
 
   useEffect(() => {
-    setWeather(emptyCurrentWeather);
-  }, []);
-
-  useEffect(() => {
-    if (url) refetch();
     queryClient.clear();
-  }, [url, city, country]);
+
+    if (url) refetch();
+  }, [...observedKeys, url]);
 
   useEffect(() => {
     if (status === "success" && data) {
-      setWeather(JSON.parse(data.weather));
-      setTimestamp(data.updated_at);
+      setReturnedData(data);
     }
-  }, [status]);
+  }, [status, data]);
 
-  const setQuery = ({ countryCode, city }: WeatherBlocksProps) => {
-    setUrl(`${apiURL}/${countryCode}/${city}`);
-    setCity(city);
-    setCountry(countryCode);
+  const setNewUrl = (url: string) => {
+    setUrl(url);
   };
 
   return {
     status: status,
-    weather: weather,
-    timestamp: timestamp,
-    setQuery: setQuery,
+    data: returnedData,
+    setNewUrl: setNewUrl,
   };
 };
 
-export default useFetchApi;
+export const apiURL = `https://dziwnykot.pl/weather-api-second`;
+
+export const useFetchWeatherAPI = () => {
+  const [readyToReturn, setReadyToReturn] =
+    useState<CurrentWeatherModel>(emptyCurrentWeather);
+
+  const { status, data, setNewUrl } = useFetchApi<WeatherApiModel>(
+    emptyWeatherApi,
+    ["city", "countryCode"]
+  );
+
+  const {
+    setWeather,
+    weather,
+    setCityName,
+    setCountryCode,
+    setTimestamp,
+    setStatus,
+  } = useWeatherState();
+
+  useEffect(() => {
+    if (status === "success" && data.weather && data.weather !== "") {
+      setReadyToReturn(JSON.parse(data.weather));
+      setWeather(JSON.parse(data.weather));
+      setCityName(data.city);
+      setCountryCode(data.country);
+      setTimestamp(data.updated_at);
+      setStatus(status);
+    } else {
+      setReadyToReturn(emptyCurrentWeather);
+    }
+  }, [data]);
+
+  const setQuery = (city: string, countryCode: string) => {
+    setNewUrl(`${apiURL}/${countryCode}/${city}`);
+  };
+  return {
+    setQuery: setQuery,
+  };
+};
