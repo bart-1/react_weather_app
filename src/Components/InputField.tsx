@@ -8,6 +8,7 @@ interface InputFieldProps {
   disabled: boolean;
   defaultValue?: string;
   refresh?: boolean;
+  errorOuterMessage?: string;
 }
 
 const InputField = ({
@@ -18,10 +19,12 @@ const InputField = ({
   maxLength,
   refresh,
   disabled = false,
+  errorOuterMessage,
 }: InputFieldProps) => {
   const [text, setText] = useState("");
-  const [errMessage, setErrMessage] = useState("");
+  const [errorInnerMessage, setErrorInnerMessage] = useState("");
   const [reload, setReload] = useState(true);
+  const [showError, setShowError] = useState<string | undefined>();
 
   useEffect(() => {
     if (defaultValue) setText(defaultValue);
@@ -30,6 +33,24 @@ const InputField = ({
   useEffect(() => {
     sendText(text);
   }, [text]);
+
+  useEffect(() => {
+    setShowError(undefined);
+    const errorsArray = errorInnerMessage || errorOuterMessage ? true : false;
+    const errIntv =
+      errorsArray &&
+      setInterval(() => {
+        setShowError((prevState) =>
+          prevState === errorInnerMessage
+            ? (prevState = errorOuterMessage)
+            : (prevState = errorInnerMessage)
+        );
+      }, 500);
+
+    return () => {
+      errIntv && clearInterval(errIntv);
+    };
+  }, [errorInnerMessage, errorOuterMessage]);
 
   useEffect(() => {
     setReload((prevState) => !prevState);
@@ -41,17 +62,22 @@ const InputField = ({
     const regex = /[a-zA-Z]/g;
     const result = [...text.matchAll(regex)];
     if (result && result.length === text.length) {
-      setErrMessage("");
+      setErrorInnerMessage("");
       setText(result.join(""));
     } else {
-      setErrMessage("Only letters");
+      setErrorInnerMessage(` * only letters`);
     }
   };
 
   return (
     <div className="flex flex-col w-44">
       <label className="text-white p-1 text-xs" htmlFor="input">
-        {labelName}
+        {`${labelName} `}
+        {showError !== undefined ? (
+          <span className="text-led-red-on">{showError}</span>
+        ) : (
+          ""
+        )}
       </label>
       <input
         className="p-1 font-bold text-xs"
@@ -62,9 +88,6 @@ const InputField = ({
         autoComplete="off"
         disabled={disabled}
       />
-      {errMessage && (
-        <span className="text-xs p-1 text-red-600">{errMessage}</span>
-      )}
     </div>
   );
 };
