@@ -1,7 +1,7 @@
 {
   "name": "react_weather_app",
   "private": true,
-  "version": "0.9.0",
+  "version": "0.9.5",
   "type": "module",
   "scripts": {
     "tailwind": "npx tailwindcss -i ./src/index.css -o ./public/assets/output.css --watch",
@@ -17,7 +17,8 @@
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "react-query": "^3.39.3",
-    "ttab": "^0.8.0"
+    "ttab": "^0.8.0",
+    "zustand": "^4.3.7"
   },
   "devDependencies": {
     "@types/react": "^18.0.15",
