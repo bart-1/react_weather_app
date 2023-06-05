@@ -22,8 +22,8 @@ export const roundNumberValue = (value: number) => {
 };
 
 export const convertTimestamp = (value: string) => {
-  return value.slice(0, 19).replace("T", " ")
-}
+  return value.slice(0, 19).replace("T", " ");
+};
 
 /**
  * Return a human-readable data.
@@ -37,7 +37,7 @@ export const epochTimeConverter = (
   ymd: boolean = true,
   hms: boolean = true
 ) => {
-  if (!time) return "-";
+  if (time === undefined) return "-";
   const date = new Date(time * 1000);
   const year = date.getUTCFullYear();
   const month = "0" + (date.getUTCMonth() + 1);
@@ -46,14 +46,11 @@ export const epochTimeConverter = (
   const minutes = "0" + date.getUTCMinutes();
   const hoursTimezoneCorrection = "0" + (date.getUTCHours() + 1);
 
-  return `${ymd ? year + "-" + month.slice(-2) + "-" + day.slice(-2) : ""} ${
+  return `${ymd ? `${year}-${month.slice(-2)}-${day.slice(-2)}` : ""} ${
     hms
-      ? " " +
-        hoursTimezoneCorrection.slice(-2) +
-        ":" +
-        minutes.slice(-2) +
-        ":" +
-        seconds.slice(-2)
+      ? ` ${hoursTimezoneCorrection.slice(-2)}:${minutes.slice(
+          -2
+        )}:${seconds.slice(-2)}`
       : ""
   }`;
 };
@@ -115,3 +112,13 @@ export const iterateObject = (dataPcs: IterableObject, masterKey = "") => {
 
   return newObject;
 };
+
+ export function isJson(str: string | null) {
+    if (!str) return false;
+    try {
+      JSON.parse(str);
+    } catch (e) {
+      return false;
+    }
+    return true;
+  }
