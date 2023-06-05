@@ -1,17 +1,20 @@
 import { useEffect, useState } from "react";
 import InputField from "./InputField";
 import { Codes, codes } from "../assets/codes";
+import { useWeatherState } from "../hooks/useAppState";
+
+export type SearchStatus = "only letters" | "no result" | "ok" | "";
 
 interface SearchProps {
   sendCountryCode: (text: string) => void;
   sendCountryName: (text: string) => void;
-  inputFieldLabel: string;
+  innerError?: (status: SearchStatus) => void;
 }
 
 const Search = ({
   sendCountryCode,
   sendCountryName,
-  inputFieldLabel,
+  innerError,
 }: SearchProps) => {
   const [phrase, setPhrase] = useState("");
   const [codesArr, setCodesArr] = useState<Codes>();
@@ -20,6 +23,8 @@ const Search = ({
   const [choosedCountryName, setChoosedCountryName] = useState("");
   const [hideSearch, setHideSearch] = useState(true);
   const [refreshInput, setRefreshInput] = useState(true);
+
+  const { setErrInputCountryCode, errInputCountryCode } = useWeatherState();
 
   useEffect(() => {
     setCodesArr(codes);
@@ -33,15 +38,21 @@ const Search = ({
 
   useEffect(() => {
     if (phrase !== choosedCountryName) {
+      setErrInputCountryCode("");
       setResults([]);
       setHideSearch(false);
       if (codesArr && Array.isArray(codesArr)) {
-        const phraseSearchResult = codesArr.filter(
+        const searchResult = codesArr.filter(
           (element) =>
             element.code.toLowerCase().includes(phrase.toLowerCase()) ||
             element.name.toLowerCase().includes(phrase.toLowerCase())
         );
-        setResults(phraseSearchResult);
+        if (searchResult.length === 0) {
+          setErrInputCountryCode("no result");
+        } else {
+          setResults(searchResult);
+          setErrInputCountryCode("");
+        }
       }
     }
   }, [phrase]);
@@ -50,12 +61,13 @@ const Search = ({
     return (
       <li key={result.code} className="w-full text-sm ">
         <button
-          className="w-40 h-5 hover:bg-black hover:text-white text-left"
+          className="w-40 hover:bg-black hover:text-white text-left"
           onClick={() => {
             setChoosedCountryCode(result.code);
             setChoosedCountryName(result.name);
             setHideSearch(true);
             setRefreshInput((prevState) => !prevState);
+            setErrInputCountryCode("ok");
           }}
         >
           {result.name} - {result.code}
@@ -68,7 +80,10 @@ const Search = ({
     <>
       <div className="w-44">
         <InputField
-          labelName={inputFieldLabel}
+          labelName={`Country`}
+          errorOuterMessage={
+            errInputCountryCode !== "ok" ? errInputCountryCode : ""
+          }
           sendText={(text) => setPhrase(text)}
           disabled={false}
           defaultValue={choosedCountryName}
@@ -82,7 +97,6 @@ const Search = ({
             </div>
           )}
       </div>
-      
     </>
   );
 };

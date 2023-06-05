@@ -1,38 +1,29 @@
-import React, { useEffect, useState } from "react";
-import { useQueryClient } from "react-query";
+import React, { useEffect } from "react";
 import Block from "./Components/Block";
-import { convertTimestamp, epochTimeConverter, roundNumberValue, wind } from "./hooks/helpers";
-import useFetchApi from "./hooks/useFetchApi";
+import {
+  convertTimestamp,
+  epochTimeConverter,
+  roundNumberValue,
+  wind,
+} from "./hooks/helpers";
+import { useWeatherState } from "./hooks/useAppState";
+import { useFetchWeatherAPI } from "./hooks/useFetchApi";
 
 export interface WeatherBlocksProps {
   city: string;
-  countryCode: string;
+  inputCountryCode: string;
 }
 
-const WeatherBlocks = ({ city, countryCode }: WeatherBlocksProps) => {
-  const queryClient = useQueryClient();
-  const { setQuery, status, weather, timestamp } = useFetchApi();
+const WeatherBlocks = () => {
+  const { setQuery } = useFetchWeatherAPI();
+  const { inputCityName, inputCountryCode } = useWeatherState();
 
+  const { weather, timestamp, status } = useWeatherState();
   useEffect(() => {
-    if (city && countryCode) {
-      setQuery({countryCode:countryCode, city:city});
+    if (inputCityName && inputCountryCode) {
+      setQuery(inputCityName, inputCountryCode);
     }
-  }, []);
-
-  useEffect(() => {
-    let mainTimer: ReturnType<typeof setInterval>;
-
-    if (city && countryCode) {
-      setQuery({countryCode:countryCode, city:city});
-      mainTimer = setInterval(() => {
-        setQuery({ countryCode: countryCode, city: city });
-      }, 10000);
-    }
-
-    return () => {
-      clearInterval(mainTimer);
-    };
-  }, [city, countryCode]);
+  }, [inputCityName, inputCountryCode]);
 
   return (
     <>

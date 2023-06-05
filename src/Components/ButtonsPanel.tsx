@@ -1,41 +1,49 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import Button, { ButtonType } from "./Button";
+import { useWeatherState } from "../hooks/useAppState";
+import { useWeatherLocalStorage } from "../hooks/useLocalStorage";
 
-interface ButtonsPanelProps {
-  outputAction: (contry: string, city: string, id: string) => void;
-  buttonsData: ButtonType[];
-  pressedButton?: string;
-}
+export type WeatherGeoData = {
+  cityName: string;
+  countryCode: string;
+};
 
-const ButtonsPanel = ({
-  outputAction,
-  buttonsData,
-  pressedButton,
-}: ButtonsPanelProps) => {
+export type WeatherShortcutButton = ButtonType & WeatherGeoData;
+
+const ButtonsPanel = () => {
   const [isOn, setIsOn] = useState("");
+  const { buttonsArray } = useWeatherState();
+  const { setInputCityName, setInputCountryCode } = useWeatherState();
+  const { ignition } = useWeatherLocalStorage();
 
-  const onOffHandler = (id: string, city: string) => {
-    setIsOn(id);
-    outputAction("pl", city, id);
-  };
   useEffect(() => {
-    if (pressedButton) setIsOn(pressedButton);
-  }, [pressedButton]);
+    ignition(true);
+  }, []);
 
-  const buttonsGenerator = buttonsData.map((button, index) => {
-    return (
-      <Button
-        action={(id: string) => onOffHandler(id, button.title)}
-        bgColor={button.bgColor}
-        id={button.title + index}
-        isActive={button.isActive}
-        isOn={button.title + index === isOn ? true : false}
-        size={button.size}
-        title={button.title}
-        key={button.title + index}
-      />
-    );
-  });
+  const handleClick = (id: string, city: string, code: string) => {
+    setIsOn(id);
+    setInputCityName(city);
+    setInputCountryCode(code);
+  };
+
+  const buttonsGenerator = buttonsArray
+    ? buttonsArray.map((button, index) => {
+        return (
+          <Button
+            action={(id: string) =>
+              handleClick(id, button.cityName, button.countryCode)
+            }
+            bgColor={button.bgColor}
+            id={button.title}
+            isActive={button.isActive}
+            isOn={button.title === isOn ? true : false}
+            size={button.size}
+            title={button.title}
+            key={button.title + index}
+          />
+        );
+      })
+    : "";
 
   return (
     <>
