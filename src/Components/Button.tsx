@@ -1,6 +1,6 @@
-import React, { SyntheticEvent, useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 
-export type ButtonType = {
+export interface ButtonType {
   action: (id: string) => void;
   bgColor?:
     | "blue"
@@ -16,7 +16,7 @@ export type ButtonType = {
   title: string;
   type?: "button" | "submit";
   id: string;
-};
+}
 
 const Button = ({
   action,
@@ -46,6 +46,7 @@ const Button = ({
         break;
     }
   }, [size]);
+
   useEffect(() => {
     switch (bgColor) {
       case "blue":
@@ -115,32 +116,33 @@ const Button = ({
 
   return (
     <>
-      <button
-        type={type}
-        onMouseOver={() => setButtonHover(true)}
-        onMouseLeave={() => {
-          setButtonHover(false);
-          setButtonClicked(false);
-        }}
-        onClick={isActive ? onClickHandler : () => ""}
-        className={`${buttonSize} border-2 border-black rounded-md text-center ${
-          isActive ? buttonColor : ` text-white`
+      {isActive && (
+        <button
+          type={type}
+          onMouseOver={() => setButtonHover(true)}
+          onMouseLeave={() => {
+            setButtonHover(false);
+            setButtonClicked(false);
+          }}
+          onClick={isActive ? onClickHandler : () => ""}
+          className={`${buttonSize} border-2 border-black rounded-md text-center ${buttonColor}
         } ${
           isOn
             ? `bg-gradient-to-b from-black to-transparent pl-2 pb-2 pr-2 pt-3 `
             : ` p-2`
         }
         }`}
-      >
-        {title}
-        <div
-          className={`w-6 h-0.5 rounded-xl ${
-            buttonHover
-              ? `${buttonClicked ? `bg-led-green-on` : `bg-yellow-400`}`
-              : `${isOn ? `bg-led-green-on` : `bg-led-orange-on`}`
-          }`}
-        ></div>
-      </button>
+        >
+          {title}
+          <div
+            className={`w-6 h-0.5 rounded-xl ${
+              buttonHover
+                ? `${buttonClicked ? `bg-led-green-on` : `bg-yellow-400`}`
+                : `${isOn ? `bg-led-green-on` : `bg-led-orange-on`}`
+            }`}
+          ></div>
+        </button>
+      )}
     </>
   );
 };

@@ -8,10 +8,15 @@ interface BlockProps {
   className?: string;
 }
 
-const Block = ({ value, title, unit="", icon = false, className }: BlockProps) => {
+const Block = ({
+  value,
+  title,
+  unit = "",
+  icon = false,
+  className,
+}: BlockProps) => {
   const [isValueArray, setIsValueArray] = useState(false);
   const [valueArrayKey, setValueArrayKey] = useState(0);
-
 
   useEffect(() => {
     if (Array.isArray(value)) {
@@ -42,7 +47,7 @@ const Block = ({ value, title, unit="", icon = false, className }: BlockProps) =
             {title}
           </span>
         ) : null}
-        {icon && value? (
+        {icon && value ? (
           isValueArray && Array.isArray(value) ? (
             <div className="flex h-full justify-center">
               <img src={`./assets/icons/${value[valueArrayKey]}.svg`}></img>
@@ -55,9 +60,12 @@ const Block = ({ value, title, unit="", icon = false, className }: BlockProps) =
         ) : null}
         <span
           className={`text-led-red-on p-2 md:p-3 text-sm md:text-xl font-bold text-center`}
-        >{!icon ? isValueArray && Array.isArray(value)
-            ? `${value[valueArrayKey]}`
-            : `${value} ${unit}`:""}
+        >
+          {!icon
+            ? isValueArray && Array.isArray(value)
+              ? `${value[valueArrayKey]}`
+              : `${value} ${unit}`
+            : ""}
         </span>
       </div>
     </>
