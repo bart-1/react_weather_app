@@ -59,7 +59,7 @@ const InputField = ({
 
   const handleInput = (e: ChangeEvent<HTMLInputElement>) => {
     const text = e.currentTarget.value;
-    const regex = /[a-zA-Z]/g;
+    const regex = /[a-zA-ZĄąĆćĘęŁłŃńÓóŚśŻżŹź]/g;
     const result = [...text.matchAll(regex)];
     if (result && result.length === text.length) {
       setErrorInnerMessage("");
