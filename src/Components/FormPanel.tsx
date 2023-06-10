@@ -3,7 +3,6 @@ import Button from "./Button";
 import InputField from "./InputField";
 import Search from "./Search";
 import { useWeatherState } from "../hooks/useAppState";
-import { useWeatherLocalStorage } from "../hooks/useLocalStorage";
 
 const FormPanel = () => {
   const [freshCityName, setFreshCityName] = useState("");
@@ -24,7 +23,6 @@ const FormPanel = () => {
     numberOfButtons,
   } = useWeatherState();
 
-  const { refreshData } = useWeatherLocalStorage();
   const { weather } = useWeatherState();
 
   const handleForm = (e: SyntheticEvent | string) => {
@@ -62,7 +60,6 @@ const FormPanel = () => {
   };
 
   useEffect(() => {
-    refreshData();
     setReadyToStore(false);
   }, [readyToStore]);
 

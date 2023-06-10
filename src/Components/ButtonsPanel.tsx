@@ -1,7 +1,9 @@
 import { useEffect, useState } from "react";
 import Button, { ButtonType } from "./Button";
 import { useWeatherState } from "../hooks/useAppState";
-import { useWeatherLocalStorage } from "../hooks/useLocalStorage";
+import { buttonsDataSet } from "../assets/initialCityButtonsData";
+import { isJson } from "../hooks/helpers";
+
 
 export type WeatherGeoData = {
   cityName: string;
@@ -12,13 +14,11 @@ export type WeatherShortcutButton = ButtonType & WeatherGeoData;
 
 const ButtonsPanel = () => {
   const [isOn, setIsOn] = useState("");
-  const { buttonsArray } = useWeatherState();
+  const { buttonsArray, initializeButtonsArray } = useWeatherState();
   const { setInputCityName, setInputCountryCode } = useWeatherState();
-  const { ignition } = useWeatherLocalStorage();
 
-  useEffect(() => {
-    ignition(true);
-  }, []);
+
+
 
   const handleClick = (id: string, city: string, code: string) => {
     setIsOn(id);
