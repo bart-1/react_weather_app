@@ -3,6 +3,7 @@ import Button from "./Button";
 import InputField from "./InputField";
 import Search from "./Search";
 import { useWeatherState } from "../hooks/useAppState";
+import Block from "./Block";
 
 const FormPanel = () => {
   const [freshCityName, setFreshCityName] = useState("");
@@ -65,24 +66,29 @@ const FormPanel = () => {
 
   return (
     <>
-      <div className="col-span-4 col-rows-2 sm:col-span-4 md:col-rows-1 md:col-span-8 border-2 border-black justify-center rounded-xl bg-gradient-to-b from-darksky-mid to-black shadow-xl md:p-4">
-        <form onSubmit={(e: SyntheticEvent) => handleForm(e)}>
-          <div className="grid grid-cols-5 grid-rows-2 md:grid-rows-1 z-0">
-            <div className="col-span-3 self-start md:col-span-2">
-              <Search
-                sendCountryCode={(text: string) => setFreshCountryCode(text)}
-                sendCountryName={(text: string) => setCountrySearchValue(text)}
-              />
-            </div>
-            <div className="col-span-3 self-start md:col-span-2">
-              <InputField
-                labelName={`City`}
-                sendText={(text) => setFreshCityName(text.toLowerCase())}
-                disabled={errInputCountryCode !== "ok" ? true : false}
-                errorOuterMessage={""}
-              />
-            </div>
-            <div className="col-span-2 row-span-2 self-start justify-self-end md:col-span-1 md:row-span-1">
+      <form onSubmit={(e: SyntheticEvent) => handleForm(e)}>
+        <div className="grid grid-cols-3 grid-rows-2 md:grid-rows-1 md:grid-cols-8 z-0">
+          <div className="flex row-span-2 md:row-span-1 md:col-span-2 order-2 md:order-none ">
+            <span className="text-md text-blue-400 border-2 border-blue-400 h-fit self-center p-1 rounded-md">
+              v1.0
+            </span>
+          </div>
+          <div className="self-start md:col-span-2 order-3 -mt-1 md:mt-0 md:order-none">
+            <Search
+              sendCountryCode={(text: string) => setFreshCountryCode(text)}
+              sendCountryName={(text: string) => setCountrySearchValue(text)}
+            />
+          </div>
+          <div className="self-start order-5 md:col-span-2 md:order-none">
+            <InputField
+              labelName={`City`}
+              sendText={(text) => setFreshCityName(text.toLowerCase())}
+              disabled={errInputCountryCode !== "ok" ? true : false}
+              errorOuterMessage={""}
+            />
+          </div>
+          <div className="grid grid-cols-1 grid-rows-2 md:grid-cols-2 md:grid-rows-1 row-span-2 md:row-span-1 md:col-span-2 gap-[4px] self-start justify-self-end order-4 md:order-none">
+            {isShown && (
               <Button
                 id={"add"}
                 action={() => {
@@ -103,20 +109,20 @@ const FormPanel = () => {
                 size="M"
                 title="Add City"
               />
-              <Button
-                id={"search"}
-                action={() => setIsShown(true)}
-                type="submit"
-                bgColor="special"
-                isActive={true}
-                isOn={false}
-                size="M"
-                title="Show"
-              />
-            </div>
+            )}
+            <Button
+              id={"search"}
+              action={() => setIsShown(true)}
+              type="submit"
+              bgColor="special"
+              isActive={true}
+              isOn={false}
+              size="M"
+              title="Show"
+            />
           </div>
-        </form>
-      </div>
+        </div>
+      </form>
     </>
   );
 };

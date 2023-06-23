@@ -32,6 +32,9 @@ module.exports = {
       maxHeight: {
         "80vh": "80vh",
       },
+      fontSize: {
+        xxs: ["10px", "12px"],
+      },
       gridTemplateRows: {
         8: "repeat(8, minmax(0, 1fr))",
       },

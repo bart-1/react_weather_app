@@ -40,10 +40,10 @@ const Block = ({
   return (
     <>
       <div
-        className={`flex grow-0 flex-col max-h-40 md:max-h-full bg-gradient-to-b from-darksky-mid to-black border-2 border-black rounded-md ${className}`}
+        className={`flex grow-0 flex-col max-h-44 md:max-h-full bg-gradient-to-b from-darksky-mid to-black border-2 border-black rounded-md ${className}`}
       >
         {title ? (
-          <span className="text-xs p-1 md:p-3 text-white rounded-t-xl">
+          <span className="text-xxs md:text-xs p-1 md:p-3 text-white rounded-t-xl">
             {title}
           </span>
         ) : null}
@@ -59,7 +59,7 @@ const Block = ({
           )
         ) : null}
         <span
-          className={`text-led-red-on p-2 md:p-3 text-sm md:text-xl font-bold text-center`}
+          className={`text-led-red-on p-2 md:p-3 text-xs md:text-xl font-bold text-center`}
         >
           {!icon
             ? isValueArray && Array.isArray(value)

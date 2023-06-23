@@ -39,7 +39,7 @@ const Button = ({
         setButtonSize("w-fill text-md");
         break;
       case "M":
-        setButtonSize("w-fill  text-sm");
+        setButtonSize("w-fill text-sm");
         break;
       case "S":
         setButtonSize("w-fill text-xs");
@@ -133,7 +133,7 @@ const Button = ({
         }
         }`}
         >
-          {title}
+          <span className="text-xs md:text-sm">{title}</span>
           <div
             className={`w-6 h-0.5 rounded-xl ${
               buttonHover

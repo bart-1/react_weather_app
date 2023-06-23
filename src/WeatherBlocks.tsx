@@ -32,27 +32,27 @@ const WeatherBlocks = () => {
         title={""}
         icon={true}
         unit=""
-        className="col-span-2 row-span-2 md:col-span-3 md:row-span-3"
+        className="md:order-none order-3 col-span-2 row-span-3 md:col-span-3 md:row-span-3 h-44 md:h-full"
       />
       <Block
         value={weather!.name}
         title={"city"}
         icon={false}
         unit={""}
-        className="col-span-2 md:col-span-3 "
+        className="md:order-none order-4 col-span-2 md:col-span-3 "
       />
       <Block
         value={roundNumberValue(weather!.main.temp)}
         title={"temp"}
         icon={false}
         unit={"\u{2103}"}
-        className="col-span-2 md:col-span-2  "
+        className="md:order-none order-5 col-span-1 md:col-span-2  "
       />
       <Block
         value={weather!.weather[0].description}
         title={"description"}
         icon={false}
-        className={"col-span-2 md:col-span-3 "}
+        className="md:order-none order-4 col-span-2 md:col-span-3 "
         unit=""
       />
 
@@ -61,70 +61,70 @@ const WeatherBlocks = () => {
         title={"feels like"}
         icon={false}
         unit={"\u{2103}"}
-        className="col-span-1 md:col-span-2"
+        className="md:order-none order-5 col-span-1 md:col-span-2 "
       />
       <Block
         value={roundNumberValue(weather!.main.temp_max)}
         title={"todays max"}
         icon={false}
         unit={"\u{2103}"}
-        className="col-span-1 md:col-span-2"
+        className="md:order-none order-5 col-span-1 md:col-span-2"
       />
       <Block
         value={roundNumberValue(weather!.main.temp_min)}
         title={"todays min"}
         icon={false}
         unit={"\u{2103}"}
-        className="col-span-1 md:col-span-3"
+        className="md:order-none order-5 col-span-1 md:col-span-3"
       />
       <Block
         value={weather!.main.pressure}
         title={"pressure"}
         icon={false}
         unit={"hPa"}
-        className="col-span-1 md:col-span-2"
+        className="md:order-none order-5 col-span-1 md:col-span-2"
       />
       <Block
         value={weather!.main.humidity}
         title={"humidity"}
         icon={false}
         unit={"%"}
-        className="col-span-1 md:col-span-2"
+        className="md:order-none order-5 col-span-1 md:col-span-2"
       />
       <Block
         value={weather!.visibility}
         title={"visibility"}
         icon={false}
         unit={"m"}
-        className="col-span-10 md:col-span-2"
+        className="md:order-none order-5 col-span-1 md:col-span-2"
       />
       <Block
         value={roundNumberValue(weather!.wind.speed)}
         title={"wind"}
         icon={false}
         unit={"m/s"}
-        className="col-span-11 md:col-span-2"
+        className="md:order-none order-5 col-span-1 md:col-span-2"
       />
       <Block
         value={wind(weather!.wind.deg)}
         title={"wind deg"}
         icon={false}
         unit={""}
-        className="col-span-12 md:col-span-2"
+        className="md:order-none order-5 col-span-1 md:col-span-2"
       />
       <Block
         value={weather!.wind.gust ? roundNumberValue(weather!.wind.gust) : 0}
         title={"wind gust"}
         icon={false}
         unit={"m/s"}
-        className="col-span-1 md:col-span-2"
+        className="md:order-none order-5 col-span-1 md:col-span-2"
       />
       <Block
         value={weather!.clouds.all}
         title={"clouds"}
         icon={false}
         unit={"%"}
-        className="col-span-1 md:col-span-2"
+        className="md:order-none order-5 col-span-1 md:col-span-2"
       />
       {!weather.snow ? (
         <Block
@@ -132,7 +132,7 @@ const WeatherBlocks = () => {
           title={"rain"}
           icon={false}
           unit={"mm/h"}
-          className="col-span-2 md:col-span-2"
+          className="md:order-none order-5 col-span-1 md:col-span-2"
         />
       ) : (
         <Block
@@ -140,7 +140,7 @@ const WeatherBlocks = () => {
           title={"snow"}
           icon={false}
           unit={"mm/h"}
-          className="col-span-1 md:col-span-2"
+          className="md:order-none order-5 col-span-1 md:col-span-2"
         />
       )}
       <Block
@@ -148,14 +148,14 @@ const WeatherBlocks = () => {
         title={"sunrise"}
         icon={false}
         unit={""}
-        className="col-span-1 md:col-span-2"
+        className="md:order-none order-5 col-span-1 md:col-span-2"
       />
       <Block
         value={epochTimeConverter(weather!.sys.sunset, false, true)}
         title={"sunset"}
         icon={false}
         unit={""}
-        className="col-span-1 md:col-span-2"
+        className="md:order-none order-5 col-span-1 md:col-span-2"
       />
 
       <Block
@@ -163,7 +163,7 @@ const WeatherBlocks = () => {
         title={"updated_at"}
         icon={false}
         unit={""}
-        className="col-span-4 md:col-span-4"
+        className="md:order-none order-5 col-span-4 md:col-span-4"
       />
     </>
   );
