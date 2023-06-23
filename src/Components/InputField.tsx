@@ -59,7 +59,7 @@ const InputField = ({
 
   const handleInput = (e: ChangeEvent<HTMLInputElement>) => {
     const text = e.currentTarget.value;
-    const regex = /[a-zA-ZĄąĆćĘęŁłŃńÓóŚśŻżŹź]/g;
+    const regex = /[a-zA-ZĄąĆćĘęŁłŃńÓóŚŻżŹź]/g;
     const result = [...text.matchAll(regex)];
     if (result && result.length === text.length) {
       setErrorInnerMessage("");
@@ -71,7 +71,7 @@ const InputField = ({
 
   return (
     <div className="flex flex-col w-44">
-      <label className="text-white p-1 text-xs" htmlFor="input">
+      <label className="text-white my-1 text-xxs md:text-xs" htmlFor="input">
         {`${labelName} `}
         {showError !== undefined ? (
           <span className="text-led-red-on">{showError}</span>
